@@ -228,5 +228,7 @@
     "label": "TARGET",
     "text": "광주 21팀 중 시상 4팀",
     "console": "TOP 4 / 21 teams"
-  }
+  },
+  "workspacePrivate": true,
+  "workspaceNote": "팀 내부 전용 공간으로, 외부에는 공개하지 않습니다."
 }

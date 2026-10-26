@@ -508,21 +508,23 @@ function renderWorkspace() {
     if (k.includes('drive')) return ICONS.drive;
     return ICONS.external;
   };
+  const isPrivate = config.workspacePrivate === true;
   items.forEach((w, i) => {
-    const active = Boolean(w.url);
+    const active = Boolean(w.url) && !isPrivate;
     const inner = [
       el('span', { class: 'ws-icon', html: iconFor(w.label) }),
       el('span', { class: 'ws-text' }, [
         el('span', { class: 'ws-label', text: w.label }),
         w.desc ? el('span', { class: 'ws-desc', text: w.desc }) : null,
       ]),
-      el('span', { class: `ws-state${active ? ' is-open' : ''}`, text: active ? (w.status || '바로 가기') : (w.status || '곧 열려요') }),
+      el('span', { class: `ws-state${active ? ' is-open' : ''}${isPrivate ? ' is-private' : ''}`, text: isPrivate ? 'INTERNAL · 대외비' : active ? (w.status || '바로 가기') : (w.status || '곧 열려요') }),
     ];
     const node = active
       ? el('a', { class: 'ws-card', href: w.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `${w.label}, ${w.desc ?? ''} (새 탭)` }, inner)
       : el('div', { class: 'ws-card is-disabled', 'aria-disabled': 'true' }, inner);
     grid.append(el('li', { class: 'reveal', style: `--reveal-delay:${i * 70}ms` }, [node]));
   });
+  if (config.workspaceNote) grid.after(el('p', { class: 'tl-note ws-note', text: config.workspaceNote }));
   document.querySelector('#workspace .section-title')?.classList.add('reveal');
 }
 
@@ -573,13 +575,13 @@ function renderConsole() {
     if (r) counts[r] = (counts[r] ?? 0) + 1;
   });
   const roles = Object.entries(counts).map(([r, n]) => `${r} ${n}`).join('  ');
-  const ws = (config.workspace ?? []).filter((w) => w.url).map((w) => w.label.toLowerCase());
+  const ws = config.workspacePrivate ? ['internal'] : (config.workspace ?? []).filter((w) => w.url).map((w) => w.label.toLowerCase());
   const pad = (s, n) => (s + ' '.repeat(n)).slice(0, n);
   const lines = [
     { t: 'cmd', s: '$ team status --verbose' },
     { t: 'ok', s: `✓ ${pad('members', 11)}${ready}/${members.length} verified` },
     { t: 'ok', s: `✓ ${pad('roles', 11)}${roles}` },
-    { t: 'ok', s: `✓ ${pad('workspace', 11)}${ws.length ? ws.join(', ') + ' ready' : 'setting up'}` },
+    { t: 'ok', s: `✓ ${pad('workspace', 11)}${config.workspacePrivate ? (config.workspace ?? []).length + ' tools, internal only' : ws.length ? ws.join(', ') + ' ready' : 'setting up'}` },
     now ? { t: 'run', s: `● ${pad('phase', 11)}${now.phase ?? ''} in progress` } : null,
     (config.deliverables ?? []).length
       ? (() => {

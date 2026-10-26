@@ -1744,9 +1744,17 @@ a.ws-card:focus-visible {
 .ws-state.is-open::after {
   content: ' \2197';
 }
+.ws-state.is-private {
+  border: 1px solid color-mix(in srgb, var(--orange) 50%, transparent);
+  color: var(--orange);
+  letter-spacing: 0.04em;
+}
+.tl-note.ws-note {
+  padding-left: 0;
+}
 .ws-card.is-disabled {
   border-style: dashed;
-  cursor: not-allowed;
+  cursor: default;
 }
 .ws-card.is-disabled .ws-icon {
   background: transparent;
