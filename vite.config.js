@@ -9,7 +9,7 @@ function injectConfig() {
     const words = name.trim().split(/\s+/);
     let w = 0;
     for (const word of words) for (const ch of [...word]) w += /[ᄀ-ᇿ㄰-㆏가-힯぀-ヿ一-鿿]/.test(ch) ? 1 : 0.62;
-    return Math.max(1, (w + (words.length - 1) * 0.22) * 0.97).toFixed(2);
+    return Math.max(1, (w + (words.length - 1) * 0.22) * 1.06).toFixed(2);
   };
   return {
     name: 'inject-config',
@@ -18,6 +18,7 @@ function injectConfig() {
       return html
         .replaceAll('%TEAM_NAME%', esc(c.teamName))
         .replaceAll('%TEAM_NAME_EN%', esc(c.teamNameEn))
+        .replaceAll('%TEAM_LABEL%', esc(c.teamLabel || ''))
         .replaceAll('%SUBTITLE%', esc(c.subtitle))
         .replaceAll('%TAGLINE%', esc(c.tagline))
         .replaceAll('%FOOTER%', esc(c.footer))

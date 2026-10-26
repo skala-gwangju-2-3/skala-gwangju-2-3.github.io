@@ -7,8 +7,8 @@
     <meta name="color-scheme" content="dark light" />
     <meta name="theme-color" content="#0A1020" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#EEF2F7" media="(prefers-color-scheme: light)" />
-    <title>%TEAM_NAME% | %SUBTITLE%</title>
-    <meta name="description" content="%SUBTITLE% %TEAM_NAME% 팀 소개" />
+    <title>%TEAM_NAME% | %SUBTITLE% %TEAM_LABEL%</title>
+    <meta name="description" content="%SUBTITLE% %TEAM_LABEL% %TEAM_NAME% 팀 소개" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="%TEAM_NAME% | %SUBTITLE%" />
     <meta property="og:description" content="%TAGLINE%" />
@@ -39,10 +39,9 @@
           <div class="glow"></div>
         </div>
         <div class="hero-inner wrap">
-          <p class="eyebrow"><span class="prompt">&gt; team.init()</span>&nbsp; %SUBTITLE% %TEAM_NAME%<span class="cursor" aria-hidden="true"></span></p>
+          <p class="eyebrow"><span class="prompt">&gt; team.init()</span>&nbsp; %SUBTITLE% %TEAM_LABEL%<span class="cursor" aria-hidden="true"></span></p>
           <h1 class="team-name" id="team-name">%TEAM_NAME%</h1>
-          <p class="team-name-en" data-config="teamNameEn">%TEAM_NAME_EN%</p>
-          <p class="tagline" id="tagline">%TAGLINE%</p>
+                    <p class="tagline" id="tagline">%TAGLINE%</p>
           <div class="hero-foot">
             <div class="avatar-stack" id="avatar-stack" role="list" aria-label="팀원"></div>
             <a class="scroll-cue" href="#glance" aria-label="Scroll, 아래로 이동">

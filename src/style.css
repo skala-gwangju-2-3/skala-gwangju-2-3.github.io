@@ -404,6 +404,7 @@ main > section {
   letter-spacing: -0.01em;
   line-height: 1.5;
   max-width: 24ch;
+  word-break: keep-all;
   opacity: 0;
   animation: fade 0.8s ease-out 0.9s forwards;
 }
@@ -580,6 +581,7 @@ main > section {
 
 /* ---------- 한눈에 보기 ---------- */
 .stats {
+  --stat-h: clamp(3.25rem, 7vw, 6rem);
   display: grid;
   grid-template-columns: 1fr;
   border-top: 1px solid var(--line);
@@ -587,8 +589,17 @@ main > section {
 .stat {
   padding: clamp(24px, 3vw, 40px) 0;
   border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 .stat-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  height: var(--stat-h);
   font-family: var(--mono);
   color: var(--accent);
   font-size: clamp(3.25rem, 7vw, 6rem);
@@ -610,6 +621,8 @@ main > section {
 .stat-value.roles {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
   align-items: baseline;
   gap: 4px 18px;
   font-size: clamp(2rem, 4vw, 3.25rem);

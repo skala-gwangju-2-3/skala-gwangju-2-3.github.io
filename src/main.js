@@ -73,7 +73,7 @@ function badges(m) {
 document.querySelectorAll('[data-config]').forEach((node) => {
   node.textContent = config[node.dataset.config] ?? '';
 });
-document.title = `${config.teamName} | ${config.subtitle}`;
+document.title = `${config.teamName} | ${config.subtitle} ${config.teamLabel ?? ''}`.trim();
 
 /* ---------- 히어로 팀명 ---------- */
 function renderTeamName() {
@@ -92,7 +92,7 @@ function renderTeamName() {
     h1.append(wordEl);
   }
   width += (words.length - 1) * 0.22;
-  document.documentElement.style.setProperty('--title-w', Math.max(1, width * 0.97).toFixed(2));
+  document.documentElement.style.setProperty('--title-w', Math.max(1, width * 1.06).toFixed(2));
 }
 
 function renderTagline() {
@@ -154,7 +154,7 @@ function renderStats() {
       el('dd', { class: 'stat-value roles' }, roles.map((r) => el('span', { class: 'role-count', 'data-role': r }, [el('b', { text: r }), el('span', { class: 'stat-num', text: String(counts[r]), 'data-target': counts[r] })]))),
       el('dt', { class: 'stat-label', text: '이렇게 나눠 맡아요' }),
     ]),
-    numStat('지금까지 쌓은 경력과 수상', highlightsTotal, '건', 2),
+    numStat(`팀원 ${ready.length}명이 각자 쌓아 온 경력·수상`, highlightsTotal, '건', 2),
   );
   if (reduced || !('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver(
