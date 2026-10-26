@@ -777,7 +777,8 @@ main > section {
   word-break: keep-all;
 }
 .gwin-story {
-  text-wrap: balance;
+  white-space: pre-line;
+  text-wrap: pretty;
   font-size: clamp(1rem, 1.3vw, 1.125rem);
   line-height: 1.7;
   color: var(--muted);
