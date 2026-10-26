@@ -404,7 +404,7 @@ main > section {
 
 .tagline {
   margin-top: clamp(28px, 4vw, 48px);
-  font-size: clamp(1.25rem, 2.4vw, 1.875rem);
+  font-size: clamp(1.625rem, 3.2vw, 2.5rem);
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.5;
@@ -722,9 +722,9 @@ main > section {
 }
 .gwin-def {
   position: relative;
-  max-width: 560px;
+  max-width: 780px;
   margin-top: clamp(20px, 3vw, 32px);
-  padding: 18px 20px 18px 22px;
+  padding: 22px 26px 22px 26px;
   border-left: 2px solid var(--accent-bright);
   background: linear-gradient(90deg, rgba(var(--glow-rgb), 0.08), transparent 85%);
   border-radius: 0 12px 12px 0;
@@ -741,19 +741,19 @@ main > section {
   gap: 4px 10px;
 }
 .gwin-word {
-  font-size: 1.75rem;
+  font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
 }
 .gwin-reading {
   font-family: var(--mono);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   color: var(--muted);
 }
 .gwin-tag {
   font-family: var(--mono);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 999px;
@@ -761,18 +761,18 @@ main > section {
   border: 1px solid rgba(var(--glow-rgb), 0.5);
 }
 .gwin-example {
-  font-size: 0.9375rem;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
   font-weight: 600;
   color: var(--accent);
 }
 .gwin-definition {
-  font-size: 0.9375rem;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
   line-height: 1.65;
   word-break: keep-all;
 }
 .gwin-story {
-  font-size: 0.875rem;
-  line-height: 1.65;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.7;
   color: var(--muted);
   word-break: keep-all;
 }
