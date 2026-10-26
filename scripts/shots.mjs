@@ -36,7 +36,7 @@ async function shoot(name, viewport, opts = {}) {
   return { ctx, page };
 }
 
-const d = await shoot('desktop-1440', { width: 1440, height: 900 });
+const d = await shoot('desktop-1440', { width: 1440, height: 900 }, { colorScheme: 'dark' });
 // 모달 캡처
 await d.page.click('.card-open');
 await d.page.waitForTimeout(900);
@@ -49,11 +49,24 @@ report['desktop-1440'].modalClosedByEsc = await d.page.evaluate(() => !document.
 report['desktop-1440'].focusReturned = await d.page.evaluate(() => document.activeElement?.classList.contains('card-open'));
 await d.ctx.close();
 
-const m = await shoot('mobile-390', { width: 390, height: 844 }, { isMobile: true, hasTouch: true });
+const m = await shoot('mobile-390', { width: 390, height: 844 }, { isMobile: true, hasTouch: true, colorScheme: 'dark' });
 await m.ctx.close();
 
+const t = await shoot('tablet-768', { width: 768, height: 1024 }, { colorScheme: 'dark' });
+await t.ctx.close();
+
+// 라이트 모드 (시스템 설정이 밝음일 때)
+const l = await shoot('desktop-1440-light', { width: 1440, height: 900 }, { colorScheme: 'light' });
+await l.page.click('.card-open');
+await l.page.waitForTimeout(900);
+await l.page.screenshot({ path: `${outDir}/desktop-1440-light-modal.png` });
+await l.page.keyboard.press('Escape');
+await l.ctx.close();
+const ml = await shoot('mobile-390-light', { width: 390, height: 844 }, { isMobile: true, hasTouch: true, colorScheme: 'light' });
+await ml.ctx.close();
+
 // reduced-motion 검사
-const r = await shoot('desktop-reduced-motion', { width: 1440, height: 900 }, { reducedMotion: 'reduce' });
+const r = await shoot('desktop-reduced-motion', { width: 1440, height: 900 }, { reducedMotion: 'reduce', colorScheme: 'dark' });
 report['desktop-reduced-motion'].check = await r.page.evaluate(() => {
   const ch = document.querySelector('.team-name .ch');
   const glow = document.querySelector('.glow');

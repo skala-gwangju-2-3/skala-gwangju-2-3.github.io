@@ -18,13 +18,114 @@
       "SSAFY 특화 프로젝트 DailyLog 우수상(3등) (PM·FE)"
     ],
     "agentExp": "LLM 에이전트 다수 (ARGUS, 장보고, Rounds)",
-    "links": { "github": "https://github.com/jang961111-hash", "portfolio": "https://jang961111-hash.github.io/" },
+    "links": {
+      "github": "https://github.com/jang961111-hash",
+      "portfolio": "https://jang961111-hash.github.io/"
+    },
     "photo": "jang",
     "consent": true,
     "status": "ready"
   },
-  { "id": "park-yeonju", "name": "박연주", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" },
-  { "id": "park-iwan", "name": "박이완", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" },
-  { "id": "oh-younghyun", "name": "오영현", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" },
-  { "id": "lee-hyobin", "name": "이효빈", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" }
+  {
+    "id": "park-yeonju",
+    "name": "박연주",
+    "role": "AI",
+    "roleAlt": "PM, BE",
+    "education": [
+      "한양대학교 대학원 인공지능학과 석사",
+      "서울여자대학교 디지털미디어학과(IT)·소프트웨어융합학과 복수전공 학사",
+      "한양대 계산신경영상분석(CNA) 연구실, 서울여대 시각컴퓨팅·의료영상(VCMI) 연구실",
+      "SKALA 4기"
+    ],
+    "intro": "인공지능 석사 과정에서 AI 모델을 직접 설계하고 검증한 경험이 있으며, RAG 및 Agent 기반 서비스 개발 경험을 바탕으로 AI 기능 구현과 백엔드 연계에 기여하고 싶습니다.",
+    "highlights": [
+      "석사 학위논문: 유전체 Transformer 위치 인코딩 4종 비교 (ADNI 623명 SNP 서열, RoPE 최고 성능), 대한의용생체공학회 제65회 춘계학술대회 포스터 발표",
+      "멀티모달 뇌 그래프 기반 알츠하이머 조기 판별 연구 (2인 팀·13주, DTI·rs-fMRI 융합, Directed GCN, 정확도 0.62)",
+      "오프리메드 연구과제 책임자 (8개월): 뇌 영역별 유전자 발현 데이터 재구성·유전자 그래프 구축",
+      "KB국민은행 전국 소프트웨어 경진대회 장려상 (170팀 중 5위, 팀장, iOS 앱 Leavit)",
+      "학부 졸업 프로젝트 우수상 (YOLO 음식 인식 칼로리 계산 iOS 앱)",
+      "제1회 오산시 해커톤 AI 테크니컬 멘토 (멘토링한 고교팀 장려상, 3위)"
+    ],
+    "agentExp": "LangGraph Supervisor 기반 ICT 장애 대응 에이전트 개선 (회귀 질문 3/10에서 10/10, 테스트 85개), 저작권 판례 RAG 개선 (Self-RAG 검증 등으로 답변 거절 3건에서 0건), 취업 준비 코치 Multi-Agent (성공 기준 9개 중 8개 통과)",
+    "links": {
+      "github": "https://github.com/park-yeon-ju"
+    },
+    "photo": "park-yeonju",
+    "consent": true,
+    "status": "ready",
+    "extraEducation": [
+      "SK mySUNI Digital Literacy (2023, 48시간)",
+      "삼성 SDS 2022 하계 대학생 알고리즘 특강 (80시간)",
+      "서울여대 SW중심대학 Programming GURU2 Android (240시간)",
+      "서울여대 SW중심대학 Programming GURU1 HTML·Python (240시간)"
+    ]
+  },
+  {
+    "id": "park-iwan",
+    "name": "박이완",
+    "role": "PM",
+    "roleAlt": "AI",
+    "education": [
+      "전남대학교 지구환경과학부 지질환경전공 졸업 (소프트웨어공학 부전공)",
+      "SSAFY 10기 수료 (1,600시간)",
+      "SKALA 4기"
+    ],
+    "intro": "AI 에이전트와 백엔드 서비스를 개발해 왔습니다. AI 워크플로우를 설계하고, 성능 병목을 분석해 실질적인 개선을 만들어 내는 데 관심이 있습니다.",
+    "highlights": [
+      "스타트업 AI & Backend Developer (2025.03~2026.02, AI 에이전트 및 백엔드 서비스 개발)",
+      "실시간 음성 대화형 AI 캐릭터 챗봇 에이전트 '호랑선비': LangGraph 기반 워크플로우 설계 및 비동기 처리 최적화로 응답 지연 약 6초에서 1.8초로 개선",
+      "AI 감정 일기장: PyTorch·ResNet-50 기반 7종 표정 감정 분류 모델 학습 및 과적합 개선, 백엔드 개발",
+      "SKALA 미니 프로젝트 'AlgoCoach': LangGraph·FastAPI·Vue 기반 실시간 AI 코딩 코칭 서비스 구현"
+    ],
+    "agentExp": "호랑선비 (LangGraph 기반 AI Agent, FAISS RAG, 실시간 음성 처리), AlgoCoach (LangGraph 기반 코드 분석·코칭 워크플로우)",
+    "links": {
+      "github": "https://github.com/codeiwan",
+      "portfolio": "https://dazzling-bavarois-304164.netlify.app/"
+    },
+    "photo": "park-iwan",
+    "consent": true,
+    "status": "ready"
+  },
+  {
+    "id": "oh-younghyun",
+    "name": "오영현",
+    "role": "AI",
+    "roleAlt": "BE, 인프라",
+    "education": [
+      "조선대학교 컴퓨터공학과 졸업",
+      "내일배움캠프 수료 (총 훈련시간 1,167시간)",
+      "SKALA 4기"
+    ],
+    "intro": "현장 요구를 서비스 구조에 반영하고, 성능 문제를 수치로 확인해 개선해 온 백엔드 개발자입니다.",
+    "highlights": [
+      "선한병원 전자결재 시스템 (2025.06~2026.03): 1인 풀스택 개발·운영, 실사용자 약 300명. 휴가 통계 성능 개선으로 쿼리 수 768개에서 6개, 응답 시간 3초에서 0.7초",
+      "산지직경: 6인 팀 개발 리드, 알림·AI 서비스 담당. AI 요청 실패율 30.95%에서 0%, 처리량 19.68에서 39.88 req/s로 개선",
+      "BoxOffice: 6인 팀 MSA 프로젝트에서 공통 모듈과 허브 서비스 담당. Kafka 비동기 이벤트 및 DLT 재시도 구조 구현",
+      "내일배움캠프 최종 프로젝트 대상(1위): 팀스파르타, 2026.07, 산지직경"
+    ],
+    "agentExp": "산지직경: Spring AI·Gemini·PgVector 기반 Hybrid RAG 챗봇 구현, BM25와 벡터 검색 결과를 RRF로 결합. 테스트 질문 19개로 검색 임계값을 0.75에서 0.7로 조정",
+    "links": {
+      "github": "https://github.com/dddd2356"
+    },
+    "photo": "oh-younghyun",
+    "consent": true,
+    "status": "ready"
+  },
+  {
+    "id": "lee-hyobin",
+    "name": "이효빈",
+    "role": "",
+    "roleAlt": "",
+    "education": [],
+    "intro": "",
+    "highlights": [],
+    "agentExp": "",
+    "links": {
+      "github": "",
+      "portfolio": ""
+    },
+    "photo": "",
+    "consent": false,
+    "status": "pending"
+  }
 ]

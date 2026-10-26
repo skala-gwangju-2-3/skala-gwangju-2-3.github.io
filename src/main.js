@@ -253,6 +253,7 @@ function buildModal(m) {
       m.intro ? el('p', { class: 'intro', text: m.intro }) : null,
       m.highlights?.length ? el('section', {}, [el('h3', { text: '대표 경력과 수상' }), el('ul', { class: 'hl' }, m.highlights.map((h) => el('li', { text: h })))]) : null,
       m.agentExp ? el('section', {}, [el('h3', { text: '에이전트 경험' }), el('p', { class: 'intro', text: m.agentExp })]) : null,
+      m.extraEducation?.length ? el('section', {}, [el('h3', { text: '추가 교육' }), el('ul', { class: 'edu' }, m.extraEducation.map((e) => el('li', { text: e })))]) : null,
       linkRow(m, true),
     ]),
   );
@@ -389,6 +390,39 @@ function setupGlow() {
   step();
 }
 
+/* ---------- 테마 토글 ---------- */
+function setupTheme() {
+  const root = document.documentElement;
+  const button = document.getElementById('theme-toggle');
+  const label = document.getElementById('theme-toggle-label');
+  const system = window.matchMedia('(prefers-color-scheme: light)');
+  const current = () => root.getAttribute('data-theme') || (system.matches ? 'light' : 'dark');
+  const paint = () => {
+    const theme = current();
+    label.textContent = theme === 'dark' ? '화면 밝게' : '화면 어둡게';
+    button.setAttribute('aria-pressed', root.hasAttribute('data-theme') ? 'true' : 'false');
+    button.setAttribute('aria-label', theme === 'dark' ? '밝은 화면으로 전환' : '어두운 화면으로 전환');
+  };
+  button.addEventListener('click', () => {
+    const next = current() === 'dark' ? 'light' : 'dark';
+    const systemTheme = system.matches ? 'light' : 'dark';
+    const apply = () => {
+      // 시스템 설정과 같아지면 저장값을 지워서 다시 시스템을 따르게 둔다
+      if (next === systemTheme) {
+        root.removeAttribute('data-theme');
+        try { localStorage.removeItem('theme'); } catch {}
+      } else {
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch {}
+      }
+      paint();
+    };
+    withTransition(apply);
+  });
+  system.addEventListener('change', paint);
+  paint();
+}
+
 /* ---------- 실행 ---------- */
 renderTeamName();
 renderTagline();
@@ -398,3 +432,4 @@ renderCards();
 renderPrinciples();
 setupRevealFallback();
 setupGlow();
+setupTheme();

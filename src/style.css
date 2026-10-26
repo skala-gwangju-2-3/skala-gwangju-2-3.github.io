@@ -5,12 +5,54 @@
   --text: #f3f5f9;
   --muted: #a9b4c8;
   --accent: #f2994a;
+  --accent-bright: #f2994a;
   --accent-soft: rgba(242, 153, 74, 0.14);
+  --glow-rgb: 242, 153, 74;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --backdrop: rgba(14, 23, 38, 0.8);
+  --noise-blend: screen;
+  --noise-opacity: 0.06;
   --gutter: 24px;
   --radius: 14px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --title-w: 6;
   color-scheme: dark;
+}
+
+/* 라이트 모드: 시스템 설정을 따르고, 사용자가 고른 값(data-theme)이 있으면 그걸 우선 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --ink: #f6f7fa;
+    --ink-2: #ffffff;
+    --line: #d5dce8;
+    --text: #0e1726;
+    --muted: #4f5e78;
+    --accent: #a8511a;
+    --accent-bright: #e8893a;
+    --accent-soft: rgba(232, 137, 58, 0.14);
+    --glow-rgb: 232, 137, 58;
+    --shadow: rgba(14, 23, 38, 0.18);
+    --backdrop: rgba(14, 23, 38, 0.45);
+    --noise-blend: multiply;
+    --noise-opacity: 0.05;
+    color-scheme: light;
+  }
+}
+:root[data-theme='light'] {
+  --ink: #f6f7fa;
+  --ink-2: #ffffff;
+  --line: #d5dce8;
+  --text: #0e1726;
+  --muted: #4f5e78;
+  --accent: #a8511a;
+  --accent-bright: #e8893a;
+  --accent-soft: rgba(232, 137, 58, 0.14);
+  --glow-rgb: 232, 137, 58;
+  --shadow: rgba(14, 23, 38, 0.18);
+  --backdrop: rgba(14, 23, 38, 0.45);
+  --noise-blend: multiply;
+  --noise-opacity: 0.05;
+  color-scheme: light;
 }
 
 *,
@@ -28,6 +70,7 @@ body {
   margin: 0;
   background: var(--ink);
   color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
   font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.7;
@@ -111,6 +154,40 @@ img {
   top: 16px;
 }
 
+/* ---------- 테마 토글 ---------- */
+.theme-toggle {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink) 82%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.theme-toggle::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--accent-bright);
+}
+
 /* ---------- 공통 섹션 ---------- */
 main > section {
   padding-block: clamp(72px, 10vw, 140px);
@@ -130,12 +207,13 @@ main > section {
   content: '';
   width: 22px;
   height: 2px;
-  background: var(--accent);
+  background: var(--accent-bright);
 }
 
 /* ---------- 히어로 ---------- */
 .hero {
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
   display: grid;
   align-items: end;
@@ -156,8 +234,8 @@ main > section {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.06;
-  mix-blend-mode: screen;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
 }
 .glow {
   position: absolute;
@@ -166,7 +244,7 @@ main > section {
   width: 70vmax;
   height: 70vmax;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(242, 153, 74, 0.11) 0%, rgba(242, 153, 74, 0.04) 35%, transparent 62%);
+  background: radial-gradient(circle, rgba(var(--glow-rgb), 0.11) 0%, rgba(var(--glow-rgb), 0.04) 35%, transparent 62%);
   transform: translate(calc(var(--gx, 50vw) - 35vmax), calc(var(--gy, 40vh) - 35vmax));
   will-change: transform;
 }
@@ -190,7 +268,7 @@ main > section {
   content: '';
   width: 22px;
   height: 2px;
-  background: var(--accent);
+  background: var(--accent-bright);
 }
 
 .team-name {
@@ -255,7 +333,7 @@ main > section {
   right: 0;
   bottom: 0.02em;
   height: 0.14em;
-  background: var(--accent);
+  background: var(--accent-bright);
   border-radius: 2px;
   transform: scaleX(0);
   transform-origin: left center;
@@ -338,7 +416,7 @@ main > section {
   top: 0;
   width: 100%;
   height: 40%;
-  background: var(--accent);
+  background: var(--accent-bright);
   animation: cue 1.8s ease-in-out infinite;
 }
 @keyframes cue {
@@ -347,6 +425,18 @@ main > section {
   }
   100% {
     transform: translateY(260%);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    align-items: center;
+  }
+  .hero-inner {
+    padding-top: 88px;
+  }
+  .hero-foot {
+    margin-top: clamp(40px, 7vh, 72px);
   }
 }
 
@@ -450,8 +540,8 @@ main > section {
 }
 .card:hover,
 .card:focus-within {
-  border-color: rgba(242, 153, 74, 0.55);
-  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  border-color: color-mix(in srgb, var(--accent-bright) 55%, transparent);
+  box-shadow: 0 24px 48px -24px var(--shadow);
 }
 .card.is-tilting {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -468,6 +558,7 @@ main > section {
   height: 100%;
   object-fit: cover;
   filter: grayscale(1) contrast(1.02);
+  background: var(--ink);
   transition: filter 0.6s ease, transform 0.6s var(--ease-out);
 }
 .card:hover .card-photo img,
@@ -485,7 +576,7 @@ main > section {
   letter-spacing: -0.04em;
   color: var(--line);
   background:
-    radial-gradient(circle at 30% 20%, rgba(242, 153, 74, 0.08), transparent 55%),
+    radial-gradient(circle at 30% 20%, rgba(var(--glow-rgb), 0.08), transparent 55%),
     var(--ink);
 }
 
@@ -582,7 +673,7 @@ main > section {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--accent-bright);
 }
 .hl-more {
   color: var(--muted);
@@ -719,10 +810,10 @@ main > section {
   background: var(--ink-2);
   color: var(--text);
   overflow: hidden;
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 40px 80px -30px var(--shadow);
 }
 .modal::backdrop {
-  background: rgba(14, 23, 38, 0.8);
+  background: var(--backdrop);
 }
 .modal-inner {
   display: grid;
@@ -789,6 +880,9 @@ main > section {
 .modal .hl {
   border-top: 0;
   padding-top: 0;
+}
+.modal .edu {
+  font-size: 1rem;
 }
 .modal .card-links {
   margin-top: 4px;
