@@ -1040,6 +1040,30 @@ main > section:not(.hero) > .wrap {
   main > section:not(.hero) > .wrap::after { right: -0.3em; }
 }
 
+/* 강조와 전후 수치 */
+.em {
+  font-weight: 800;
+  color: var(--accent);
+}
+.ks-before {
+  color: var(--muted);
+  font-weight: 600;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: color-mix(in srgb, var(--muted) 70%, transparent);
+}
+.ks-arrow {
+  display: inline-block;
+  margin: 0 0.45em;
+  color: var(--muted);
+  font-weight: 400;
+}
+.ks-after {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.15em;
+}
+
 /* ---------- 팀원 조직도 ---------- */
 .org {
   --line-w: 2px;

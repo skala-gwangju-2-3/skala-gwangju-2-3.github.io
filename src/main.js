@@ -69,6 +69,32 @@ function badges(m) {
   return items.length ? el('div', { class: 'badges' }, items) : null;
 }
 
+// 데이터 문자열의 **강조** 부분만 <strong> 으로 바꿔 노드 배열로 돌려준다 (HTML 주입 없음)
+function richText(str = '') {
+  return String(str)
+    .split(/(\*\*[^*]+\*\*)/g)
+    .filter(Boolean)
+    .map((part) => (part.startsWith('**') && part.endsWith('**') ? el('strong', { class: 'em', text: part.slice(2, -2) }) : part));
+}
+const plain = (str = '') => String(str).replace(/\*\*/g, '');
+
+// "6초 → 1.8초" 형태의 대표 수치를 전후 값으로 나눠 표시
+function formatKeyStat(node) {
+  const full = node.dataset.full ?? node.textContent;
+  const parts = full.split(/\s*→\s*/);
+  if (parts.length !== 2) {
+    node.textContent = full;
+    return;
+  }
+  const m = parts[0].match(/^(.*?\s)?(\d[\d.,]*\S*)$/);
+  node.replaceChildren(
+    m && m[1] ? m[1] : '',
+    el('span', { class: 'ks-before', text: m ? m[2] : parts[0] }),
+    el('span', { class: 'ks-arrow', text: '→', 'aria-hidden': 'true' }),
+    el('span', { class: 'ks-after', text: parts[1] }),
+  );
+}
+
 /* ---------- 설정 텍스트 ---------- */
 document.querySelectorAll('[data-config]').forEach((node) => {
   node.textContent = config[node.dataset.config] ?? '';
@@ -209,7 +235,7 @@ function roleChips(m, { large = false } = {}) {
 function keyStatBlock(m) {
   if (!m.keyStat) return null;
   return el('div', { class: 'keystat' }, [
-    el('p', { class: 'keystat-value', text: m.keyStat }),
+    el('p', { class: 'keystat-value', 'data-full': m.keyStat, 'aria-label': m.keyStat }, [m.keyStat]),
     m.keyStatLabel ? el('p', { class: 'keystat-label', text: m.keyStatLabel }) : null,
   ]);
 }
@@ -249,7 +275,7 @@ function memberCard(m, { lead = false } = {}) {
     edu.length ? el('ul', { class: 'edu' }, edu.map((e) => el('li', { text: e }))) : null,
     lead && m.intro ? el('p', { class: 'intro', text: m.intro }) : null,
     lead && m.highlights?.length
-      ? el('ul', { class: 'hl' }, m.highlights.slice(0, 2).map((h) => el('li', { text: h })))
+      ? el('ul', { class: 'hl' }, m.highlights.slice(0, 2).map((h) => el('li', {}, richText(h))))
       : null,
     hopeText(m) ? el('p', { class: 'hope', text: hopeText(m) }) : null,
     el('span', { class: 'more', 'aria-hidden': 'true', text: '자세히 보기' }),
@@ -310,7 +336,10 @@ function attachTilt(card) {
 
 function setupTyping() {
   const nodes = document.querySelectorAll('.org .keystat-value');
-  if (reduced || !('IntersectionObserver' in window)) return;
+  if (reduced || !('IntersectionObserver' in window)) {
+    nodes.forEach(formatKeyStat);
+    return;
+  }
   const type = (node) => {
     const full = node.dataset.full;
     const chars = [...full];
@@ -324,6 +353,7 @@ function setupTyping() {
       if (i >= chars.length) {
         clearInterval(timer);
         node.classList.remove('typing');
+        formatKeyStat(node);
       }
     }, step);
   };
@@ -338,8 +368,7 @@ function setupTyping() {
     { threshold: 0.6 },
   );
   nodes.forEach((n) => {
-    n.dataset.full = n.textContent;
-    n.setAttribute('aria-label', n.textContent);
+    formatKeyStat(n);
     io.observe(n);
   });
 }
@@ -373,6 +402,7 @@ let lastCardImg = null;
 function buildModal(m) {
   const sec = (title, node) => (node ? el('section', {}, [el('h3', { text: title }), node]) : null);
   const list = (arr, cls) => (arr?.length ? el('ul', { class: cls }, arr.map((x) => el('li', { text: x }))) : null);
+  queueMicrotask(() => modalInner.querySelectorAll('.keystat-value').forEach(formatKeyStat));
   modalInner.replaceChildren(
     photoBlock(m, 960, 'modal-photo'),
     el('div', { class: 'modal-content' }, [
@@ -387,7 +417,7 @@ function buildModal(m) {
       ]),
       keyStatBlock(m),
       m.intro ? el('p', { class: 'intro', text: m.intro }) : null,
-      sec('대표 경력과 수상', list(m.highlights, 'hl')),
+      sec('대표 경력과 수상', m.highlights?.length ? el('ul', { class: 'hl' }, m.highlights.map((h) => el('li', {}, richText(h)))) : null),
       m.agentExp ? sec('에이전트 경험', el('p', { class: 'intro', text: m.agentExp })) : null,
       sec('학력과 교육', list(m.education, 'edu')),
       sec('연구실', list(m.labs, 'edu')),
