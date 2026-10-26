@@ -143,6 +143,11 @@ button {
   cursor: pointer;
 }
 
+p,
+li {
+  text-wrap: pretty;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -766,11 +771,13 @@ main > section {
   color: var(--accent);
 }
 .gwin-definition {
+  text-wrap: balance;
   font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
   line-height: 1.65;
   word-break: keep-all;
 }
 .gwin-story {
+  text-wrap: balance;
   font-size: clamp(1rem, 1.3vw, 1.125rem);
   line-height: 1.7;
   color: var(--muted);
