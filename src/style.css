@@ -2099,9 +2099,6 @@ a.ws-card:focus-visible {
   aspect-ratio: 3 / 4;
   background: var(--ink);
   overflow: hidden;
-  align-self: start;
-  position: sticky;
-  top: 0;
 }
 .modal-photo img {
   width: 100%;
@@ -2191,7 +2188,7 @@ a.ws-card:focus-visible {
 }
 @media (min-width: 768px) {
   .modal-inner {
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 360px 1fr;
   }
   .modal-content {
     padding: 36px 36px 40px;
@@ -2204,11 +2201,18 @@ a.ws-card:focus-visible {
   flex-direction: column;
   background: var(--ink);
 }
+@media (min-width: 768px) {
+  .modal-side {
+    position: sticky;
+    top: 0;
+    align-self: start;
+  }
+}
 .pledge {
   --t: var(--accent-bright);
   --t-bg: rgba(var(--glow-rgb), 0.1);
   margin: 0;
-  padding: 22px 22px 24px;
+  padding: 22px 20px 24px;
   flex: 1;
   background: var(--t-bg);
   border-top: 3px solid var(--t);
@@ -2230,13 +2234,13 @@ a.ws-card:focus-visible {
 }
 .pledge-text {
   margin: 0;
-  font-size: 1.125rem;
+  white-space: pre-line;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.55;
   letter-spacing: -0.01em;
   color: var(--text);
   word-break: keep-all;
-  text-wrap: balance;
 }
 .pledge-text::before {
   content: '“';
