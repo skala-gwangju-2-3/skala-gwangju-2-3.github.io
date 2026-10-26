@@ -29,6 +29,12 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.17c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>',
   external:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6"/></svg>',
+  slack:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 3v8M15 13v8M3 15h8M13 9h8"/></svg>',
+  notion:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 16V8l6 8V8"/></svg>',
+  wbs:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M7 12h10M10 18h10"/></svg>',
   close:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
 };
@@ -415,6 +421,41 @@ dialog.addEventListener('keydown', (e) => {
   }
 });
 
+/* ---------- 팀 워크스페이스 ---------- */
+function renderWorkspace() {
+  const grid = document.getElementById('ws-grid');
+  const items = config.workspace ?? [];
+  if (!grid) return;
+  if (!items.length) {
+    document.getElementById('workspace')?.remove();
+    return;
+  }
+  const iconFor = (label = '') => {
+    const k = label.toLowerCase();
+    if (k.includes('github')) return ICONS.github;
+    if (k.includes('slack')) return ICONS.slack;
+    if (k.includes('notion')) return ICONS.notion;
+    if (k.includes('wbs')) return ICONS.wbs;
+    return ICONS.external;
+  };
+  items.forEach((w, i) => {
+    const active = Boolean(w.url);
+    const inner = [
+      el('span', { class: 'ws-icon', html: iconFor(w.label) }),
+      el('span', { class: 'ws-text' }, [
+        el('span', { class: 'ws-label', text: w.label }),
+        w.desc ? el('span', { class: 'ws-desc', text: w.desc }) : null,
+      ]),
+      el('span', { class: `ws-state${active ? ' is-open' : ''}`, text: active ? (w.status || '열기') : (w.status || '준비 중') }),
+    ];
+    const node = active
+      ? el('a', { class: 'ws-card', href: w.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `${w.label}, ${w.desc ?? ''} (새 탭)` }, inner)
+      : el('div', { class: 'ws-card is-disabled', 'aria-disabled': 'true' }, inner);
+    grid.append(el('li', { class: 'reveal', style: `--reveal-delay:${i * 70}ms` }, [node]));
+  });
+  document.querySelector('#workspace .section-title')?.classList.add('reveal');
+}
+
 /* ---------- 일하는 방식 ---------- */
 function renderPrinciples() {
   const list = document.getElementById('principle-list');
@@ -523,6 +564,7 @@ renderAvatarStack();
 renderStats();
 renderOrg();
 setupOrgLines();
+renderWorkspace();
 renderPrinciples();
 setupRevealFallback();
 setupGlow();

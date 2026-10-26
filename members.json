@@ -30,8 +30,8 @@
     "teamRoleSub": "에이전트 흐름 설계",
     "tier": 1,
     "group": "PM",
-    "keyStat": "1.8초",
-    "keyStatLabel": "음성 에이전트 '호랑선비' 응답 지연 개선 (기존 약 6초)"
+    "keyStat": "6초 → 1.8초",
+    "keyStatLabel": "LangGraph 실시간 음성 에이전트 응답 지연 개선"
   },
   {
     "id": "park-yeonju",
@@ -72,7 +72,7 @@
     "tier": 2,
     "group": "AI · 데이터",
     "keyStat": "인공지능 석사",
-    "keyStatLabel": "유전체 Transformer 위치 인코딩 연구",
+    "keyStatLabel": "모델 설계·통제 실험·평가",
     "labs": [
       "한양대 계산신경영상분석(CNA) 연구실",
       "서울여대 시각컴퓨팅·의료영상(VCMI) 연구실"
@@ -108,8 +108,8 @@
     "badge": "인프라 리드",
     "tier": 2,
     "group": "AI · 데이터",
-    "keyStat": "실사용자 300명",
-    "keyStatLabel": "병원 전자결재 시스템 1인 풀스택 개발·운영"
+    "keyStat": "쿼리 768개 → 6개",
+    "keyStatLabel": "실사용자 300명 시스템 1인 개발·운영"
   },
   {
     "id": "lee-hyobin",
@@ -139,8 +139,8 @@
     "badge": "BE 리드",
     "tier": 3,
     "group": "서비스 개발",
-    "keyStat": "실시간 탐지 알림",
-    "keyStatLabel": "AskMe 백엔드: WebSocket 기반 탐지 결과 저장·알림"
+    "keyStat": "실시간 탐지 백엔드",
+    "keyStatLabel": "FastAPI · WebSocket · 알림"
   },
   {
     "id": "jang",
