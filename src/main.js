@@ -605,9 +605,13 @@ function renderMission() {
         el('span', { class: 'mission-code', text: g.code || `GOAL ${String(i + 1).padStart(2, '0')}` }),
         el('h3', { class: 'mission-title', text: g.title }),
         g.body ? el('p', { class: 'mission-body', text: g.body }) : null,
+        g.evals?.length
+          ? el('ul', { class: 'mission-evals', 'aria-label': '연결된 평가 항목' }, g.evals.map((e) => el('li', { text: e })))
+          : null,
       ]),
     );
   });
+  if (config.mission?.evalNote) grid.after(el('p', { class: 'tl-note mission-note', text: config.mission.evalNote }));
   document.querySelector('#mission .section-title')?.classList.add('reveal');
   document.querySelector('.mission-lead')?.classList.add('reveal');
 }

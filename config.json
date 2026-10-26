@@ -144,19 +144,33 @@
       {
         "code": "GOAL 01",
         "title": "11.12 MVP, E2E 데모",
-        "body": "중간점검 전에 End‑to‑End 한 바퀴. 피드백은 Working Software로 받습니다."
+        "body": "중간점검 전에 End‑to‑End 한 바퀴. 피드백은 Working Software로 받습니다.",
+        "evals": [
+          "서비스 가치",
+          "UI/UX 완성도",
+          "발표 Q&A"
+        ]
       },
       {
         "code": "GOAL 02",
         "title": "Baseline 대비 정량 검증",
-        "body": "동일 조건 A/B 비교. 보류율까지 리포트하고, Cherry‑picking은 없습니다."
+        "body": "동일 조건 A/B 비교. 보류율까지 리포트하고, Cherry‑picking은 없습니다.",
+        "evals": [
+          "AI/데이터 기술 적용",
+          "성능 최적화"
+        ]
       },
       {
         "code": "GOAL 03",
         "title": "Production-ready",
-        "body": "주간 멘토 리뷰로 스펙을 고정하고, 운영 환경 기준으로 QA합니다."
+        "body": "주간 멘토 리뷰로 스펙을 고정하고, 운영 환경 기준으로 QA합니다.",
+        "evals": [
+          "기술 아키텍처",
+          "산출물 문서화"
+        ]
       }
-    ]
+    ],
+    "evalNote": "EVAL 태그: SKALA 4기 최종평가 항목"
   },
   "deliverablesTitle": "산출물 트래커",
   "deliverables": [
