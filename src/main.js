@@ -171,14 +171,16 @@ function renderStats() {
 }
 
 function countUp(node) {
+  // 0이 잠깐이라도 보이지 않게, 최종값의 절반에서 출발해 짧게 올라간다
   const target = Number(node.dataset.target);
-  if (!Number.isFinite(target) || target === 0) return;
-  const duration = 1000;
+  if (!Number.isFinite(target) || target < 2) return;
+  const from = Math.max(1, Math.ceil(target / 2));
+  const duration = 600;
   const start = performance.now();
   const tick = (now) => {
     const t = Math.min(1, (now - start) / duration);
     const eased = 1 - Math.pow(1 - t, 3);
-    node.textContent = String(Math.max(t < 1 ? 0 : target, Math.round(target * eased)));
+    node.textContent = String(Math.round(from + (target - from) * eased));
     if (t < 1) requestAnimationFrame(tick);
     else node.textContent = String(target);
   };
