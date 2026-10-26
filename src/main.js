@@ -3,6 +3,7 @@ import members from '../members.json';
 
 const photoFiles = import.meta.glob('../assets/photos/*.webp', { eager: true, query: '?url', import: 'default' });
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduced) document.documentElement.classList.add('js-motion');
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 /* ---------- 유틸 ---------- */
@@ -116,24 +117,40 @@ function renderAvatarStack() {
 }
 
 /* ---------- 한눈에 보기 ---------- */
+const ROLE_ORDER = ['PM', 'AI', 'BE', 'FE'];
+const normRole = (r = '') => {
+  const v = r.trim().toUpperCase();
+  if (v.startsWith('FRONT') || v === 'FE') return 'FE';
+  if (v.startsWith('BACK') || v === 'BE') return 'BE';
+  return v;
+};
+
 function renderStats() {
   const ready = members.filter(isReady);
-  const stats = [
-    { label: '팀원', value: members.length, unit: '명' },
-    { label: '프로필 공개', value: ready.length, unit: '명' },
-    { label: '대표 경력과 수상', value: ready.reduce((sum, m) => sum + (m.highlights?.length ?? 0), 0), unit: '건' },
-  ];
+  const counts = {};
+  for (const m of members) {
+    const r = normRole(m.role);
+    if (r) counts[r] = (counts[r] ?? 0) + 1;
+  }
+  const roles = Object.keys(counts).sort((a, b) => (ROLE_ORDER.indexOf(a) + 99) % 99 - (ROLE_ORDER.indexOf(b) + 99) % 99);
   const dl = document.getElementById('stats');
-  stats.forEach((s, i) => {
-    const value = el('span', { class: 'stat-num', text: reduced ? String(s.value) : '0', 'data-target': s.value });
-    dl.append(
-      el('div', { class: 'stat reveal', style: `--reveal-delay:${i * 90}ms` }, [
-        el('dd', { class: 'stat-value' }, [value, el('small', { text: s.unit })]),
-        el('dt', { class: 'stat-label', text: s.label }),
-      ]),
-    );
-  });
-  if (reduced) return;
+  const highlightsTotal = ready.reduce((sum, m) => sum + (m.highlights?.length ?? 0), 0);
+
+  // 숫자는 처음부터 최종값을 넣고, 카운트업은 화면에 들어올 때만 덧입힌다
+  const numStat = (label, value, unit, i) =>
+    el('div', { class: 'stat reveal', style: `--reveal-delay:${i * 90}ms` }, [
+      el('dd', { class: 'stat-value' }, [el('span', { class: 'stat-num', text: String(value), 'data-target': value }), el('small', { text: unit })]),
+      el('dt', { class: 'stat-label', text: label }),
+    ]);
+  dl.append(
+    numStat('팀원', members.length, '명', 0),
+    el('div', { class: 'stat stat-roles reveal', style: '--reveal-delay:90ms' }, [
+      el('dd', { class: 'stat-value roles' }, roles.map((r) => el('span', { class: 'role-count' }, [el('b', { text: r }), el('span', { class: 'stat-num', text: String(counts[r]), 'data-target': counts[r] })]))),
+      el('dt', { class: 'stat-label', text: '역할 구성' }),
+    ]),
+    numStat('대표 경력과 수상', highlightsTotal, '건', 2),
+  );
+  if (reduced || !('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
@@ -142,30 +159,51 @@ function renderStats() {
         entry.target.querySelectorAll('.stat-num').forEach(countUp);
       }
     },
-    { threshold: 0.4 },
+    { threshold: 0.3 },
   );
   io.observe(dl);
 }
 
 function countUp(node) {
   const target = Number(node.dataset.target);
-  const duration = 1100;
+  if (!Number.isFinite(target) || target === 0) return;
+  const duration = 1000;
   const start = performance.now();
   const tick = (now) => {
     const t = Math.min(1, (now - start) / duration);
     const eased = 1 - Math.pow(1 - t, 3);
-    node.textContent = String(Math.round(target * eased));
+    node.textContent = String(Math.max(t < 1 ? 0 : target, Math.round(target * eased)));
     if (t < 1) requestAnimationFrame(tick);
+    else node.textContent = String(target);
   };
   requestAnimationFrame(tick);
 }
 
-/* ---------- 팀원 카드 ---------- */
-function renderCards() {
-  const grid = document.getElementById('member-grid');
-  members.forEach((m, i) => {
-    grid.append(isReady(m) ? readyCard(m, i) : pendingCard(m, i));
-  });
+/* ---------- 팀원 조직도 ---------- */
+const hopeText = (m) => {
+  const parts = [];
+  if (m.role) parts.push(`희망 1순위 ${m.role}`);
+  if (m.roleAlt) parts.push(`2순위 ${m.roleAlt}`);
+  return parts.join(' · ');
+};
+
+function roleChips(m, { large = false } = {}) {
+  const items = [];
+  if (m.teamRole) items.push(el('span', { class: `chip chip-main${large ? ' is-large' : ''}`, text: m.teamRole }));
+  if (m.teamRoleSub) items.push(el('span', { class: 'chip chip-sub', text: m.teamRoleSub }));
+  if (!items.length) {
+    if (m.role) items.push(el('span', { class: 'chip chip-main', text: m.role }));
+    if (m.roleAlt) items.push(el('span', { class: 'chip chip-sub', text: m.roleAlt }));
+  }
+  return items.length ? el('div', { class: 'chips' }, items) : null;
+}
+
+function keyStatBlock(m) {
+  if (!m.keyStat) return null;
+  return el('div', { class: 'keystat' }, [
+    el('p', { class: 'keystat-value', text: m.keyStat }),
+    m.keyStatLabel ? el('p', { class: 'keystat-label', text: m.keyStatLabel }) : null,
+  ]);
 }
 
 function photoBlock(m, size, className) {
@@ -178,47 +216,73 @@ function photoBlock(m, size, className) {
   return box;
 }
 
-function readyCard(m, i) {
-  const top3 = (m.highlights ?? []).slice(0, 3);
-  const rest = (m.highlights?.length ?? 0) - top3.length;
-  const card = el('li', { class: 'card reveal', style: `--reveal-delay:${(i % 3) * 80}ms`, 'data-id': m.id }, [
-    photoBlock(m, 480, 'card-photo'),
-    el('div', { class: 'card-body' }, [
-      el('div', { class: 'card-head' }, [
-        el('h3', { class: 'card-name' }, [
-          el('button', { class: 'card-open', type: 'button', onclick: () => openModal(m, card) }, [m.name, el('span', { class: 'sr-only', text: ' 상세 보기' })]),
-        ]),
+function openButton(m, card) {
+  return el('button', { class: 'card-open', type: 'button', onclick: () => openModal(m, card) }, [m.name, el('span', { class: 'sr-only', text: ' 상세 보기' })]);
+}
+
+function memberCard(m, { lead = false } = {}) {
+  if (!isReady(m)) {
+    return el('article', { class: 'card is-pending reveal', 'data-id': m.id }, [
+      photoBlock(m, 480, 'card-photo'),
+      el('div', { class: 'card-body' }, [
+        el('h3', { class: 'card-name', text: m.name }),
+        el('span', { class: 'pending-label', text: '프로필 준비 중' }),
+        el('div', { class: 'skeleton', 'aria-hidden': 'true' }, [el('span'), el('span'), el('span')]),
       ]),
-      badges(m),
-      m.education?.length ? el('ul', { class: 'edu' }, m.education.map((e) => el('li', { text: e }))) : null,
-      m.intro ? el('p', { class: 'intro', text: m.intro }) : null,
-      top3.length
-        ? el('ul', { class: 'hl' }, [
-            ...top3.map((h) => el('li', { text: h })),
-            rest > 0 ? el('li', { class: 'hl-more', text: `외 ${rest}건, 카드를 눌러 전체 보기` }) : null,
-          ])
-        : null,
-      linkRow(m),
-    ]),
+    ]);
+  }
+  const card = el('article', { class: `card reveal${lead ? ' card-lead' : ''}`, 'data-id': m.id });
+  const edu = (m.education ?? []).slice(0, 2);
+  const body = el('div', { class: 'card-body' }, [
+    lead && m.badge ? el('p', { class: 'lead-badge', text: m.badge }) : null,
+    el('h3', { class: 'card-name' }, [openButton(m, card)]),
+    roleChips(m, { large: true }),
+    keyStatBlock(m),
+    edu.length ? el('ul', { class: 'edu' }, edu.map((e) => el('li', { text: e }))) : null,
+    lead && m.intro ? el('p', { class: 'intro', text: m.intro }) : null,
+    lead && m.highlights?.length
+      ? el('ul', { class: 'hl' }, m.highlights.slice(0, 2).map((h) => el('li', { text: h })))
+      : null,
+    hopeText(m) ? el('p', { class: 'hope', text: hopeText(m) }) : null,
+    el('span', { class: 'more', 'aria-hidden': 'true', text: '자세히 보기' }),
   ]);
+  card.append(photoBlock(m, lead ? 960 : 480, 'card-photo'), body);
   attachTilt(card);
   return card;
 }
 
-function pendingCard(m, i) {
-  return el('li', { class: 'card is-pending reveal', style: `--reveal-delay:${(i % 3) * 80}ms`, 'data-id': m.id }, [
-    photoBlock(m, 480, 'card-photo'),
-    el('div', { class: 'card-body' }, [
-      el('div', { class: 'card-head' }, [el('h3', { class: 'card-name', text: m.name })]),
-      el('span', { class: 'pending-label', text: '프로필 준비 중' }),
-      el('div', { class: 'skeleton', 'aria-hidden': 'true' }, [el('span'), el('span'), el('span')]),
-    ]),
-  ]);
+function renderOrg() {
+  const root = document.getElementById('org');
+  const sorted = [...members].sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  const lead = sorted.find((m) => normRole(m.teamRole) === 'PM' || m.group === 'PM') ?? sorted[0];
+  const rest = sorted.filter((m) => m !== lead);
+  const groups = [];
+  for (const m of rest) {
+    const name = m.group || '팀원';
+    let g = groups.find((x) => x.name === name);
+    if (!g) groups.push((g = { name, members: [] }));
+    g.members.push(m);
+  }
+  root.append(
+    el('div', { class: 'org-top' }, [memberCard(lead, { lead: true })]),
+    el('div', { class: 'org-stem', 'aria-hidden': 'true' }),
+    el(
+      'div',
+      { class: `org-branches${groups.length > 1 ? ' is-split' : ''}`, style: `--branches:${groups.length}` },
+      groups.map((g) =>
+        el('section', { class: 'org-group', 'aria-label': g.name }, [
+          el('span', { class: 'org-drop', 'aria-hidden': 'true' }),
+          el('h3', { class: 'org-label', text: g.name }),
+          el('div', { class: 'org-cards' }, g.members.map((m) => memberCard(m))),
+        ]),
+      ),
+    ),
+  );
 }
 
 function attachTilt(card) {
   if (reduced || !finePointer) return;
-  const max = 6;
+  const max = card.classList.contains('card-lead') ? 3 : 6;
   let raf = 0;
   card.addEventListener('pointermove', (e) => {
     const rect = card.getBoundingClientRect();
@@ -237,6 +301,26 @@ function attachTilt(card) {
   });
 }
 
+function setupOrgLines() {
+  const lines = document.querySelectorAll('.org-stem, .org-branches, .org-drop');
+  if (reduced || !('IntersectionObserver' in window)) {
+    lines.forEach((n) => n.classList.add('drawn'));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('drawn');
+          io.unobserve(entry.target);
+        }
+      }
+    },
+    { threshold: 0.2 },
+  );
+  lines.forEach((n) => io.observe(n));
+}
+
 /* ---------- 모달 ---------- */
 const dialog = document.getElementById('member-modal');
 const modalInner = document.getElementById('modal-inner');
@@ -244,22 +328,30 @@ let lastTrigger = null;
 let lastCardImg = null;
 
 function buildModal(m) {
+  const sec = (title, node) => (node ? el('section', {}, [el('h3', { text: title }), node]) : null);
+  const list = (arr, cls) => (arr?.length ? el('ul', { class: cls }, arr.map((x) => el('li', { text: x }))) : null);
   modalInner.replaceChildren(
     photoBlock(m, 960, 'modal-photo'),
     el('div', { class: 'modal-content' }, [
       el('div', { class: 'modal-top' }, [
-        el('div', {}, [el('h2', { class: 'modal-name', id: 'modal-name', text: m.name }), badges(m)]),
+        el('div', {}, [
+          m.badge && normRole(m.teamRole) === 'PM' ? el('p', { class: 'lead-badge', text: m.badge }) : null,
+          el('h2', { class: 'modal-name', id: 'modal-name', text: m.name }),
+          roleChips(m),
+          hopeText(m) ? el('p', { class: 'hope', text: hopeText(m) }) : null,
+        ]),
         el('button', { class: 'modal-close', type: 'button', 'aria-label': '닫기', html: ICONS.close, onclick: closeModal }),
       ]),
-      m.education?.length ? el('section', {}, [el('h3', { text: '학력과 교육' }), el('ul', { class: 'edu' }, m.education.map((e) => el('li', { text: e })))]) : null,
+      keyStatBlock(m),
       m.intro ? el('p', { class: 'intro', text: m.intro }) : null,
-      m.highlights?.length ? el('section', {}, [el('h3', { text: '대표 경력과 수상' }), el('ul', { class: 'hl' }, m.highlights.map((h) => el('li', { text: h })))]) : null,
-      m.agentExp ? el('section', {}, [el('h3', { text: '에이전트 경험' }), el('p', { class: 'intro', text: m.agentExp })]) : null,
-      m.extraEducation?.length ? el('section', {}, [el('h3', { text: '추가 교육' }), el('ul', { class: 'edu' }, m.extraEducation.map((e) => el('li', { text: e })))]) : null,
+      sec('대표 경력과 수상', list(m.highlights, 'hl')),
+      m.agentExp ? sec('에이전트 경험', el('p', { class: 'intro', text: m.agentExp })) : null,
+      sec('학력과 교육', list(m.education, 'edu')),
+      sec('연구실', list(m.labs, 'edu')),
+      m.extraEducation?.length ? el('section', { class: 'extra' }, [el('h3', { text: '추가 교육' }), list(m.extraEducation, 'edu edu-small')]) : null,
       linkRow(m, true),
     ]),
   );
-  modalInner.querySelector('.badges')?.style.setProperty('margin-top', '10px');
 }
 
 function withTransition(update) {
@@ -335,7 +427,7 @@ function renderPrinciples() {
     );
   });
   document.querySelector('#principles .section-title')?.classList.add('reveal');
-  document.querySelector('#members .section-title')?.classList.add('reveal');
+
   document.querySelector('#glance .section-title')?.classList.add('reveal');
 }
 
@@ -429,7 +521,8 @@ renderTeamName();
 renderTagline();
 renderAvatarStack();
 renderStats();
-renderCards();
+renderOrg();
+setupOrgLines();
 renderPrinciples();
 setupRevealFallback();
 setupGlow();

@@ -16,7 +16,7 @@ for (const file of files) {
     const out = path.join(dir, `${base}-${width}.webp`);
     await sharp(input)
       .rotate()
-      .resize({ width, height: Math.round((width * 4) / 3), fit: 'cover', position: 'attention' })
+      .resize({ width, height: Math.round((width * 4) / 3), fit: 'cover', position: 'top' })
       .webp({ quality: 82 })
       .toFile(out);
     console.log('생성:', path.relative(process.cwd(), out));

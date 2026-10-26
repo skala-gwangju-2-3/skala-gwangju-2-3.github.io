@@ -430,13 +430,15 @@ main > section {
 
 @media (max-width: 767px) {
   .hero {
-    align-items: center;
+    min-height: auto;
+    align-items: start;
   }
   .hero-inner {
-    padding-top: 88px;
+    padding-top: 84px;
+    padding-bottom: 40px;
   }
   .hero-foot {
-    margin-top: clamp(40px, 7vh, 72px);
+    margin-top: 40px;
   }
 }
 
@@ -497,6 +499,24 @@ main > section {
   margin-left: 0.15em;
   letter-spacing: 0;
 }
+.stat-value.roles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 18px;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+}
+.role-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.role-count b {
+  font-size: 0.42em;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
 .stat-label {
   margin-top: 12px;
   color: var(--muted);
@@ -509,24 +529,119 @@ main > section {
   }
 }
 
-/* ---------- 팀원 카드 ---------- */
-.grid {
+/* ---------- 팀원 조직도 ---------- */
+.org {
+  --line-w: 1px;
+  --stem: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.org-top {
+  display: flex;
+  justify-content: center;
+}
+.org-stem {
+  align-self: center;
+  width: var(--line-w);
+  height: var(--stem);
+  background: var(--line);
+  transform-origin: top;
+}
+.org-branches {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
-  perspective: 1200px;
+  gap: 40px;
+  transform-origin: center;
 }
-@media (min-width: 768px) {
-  .grid {
+.org-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.org-drop {
+  display: none;
+}
+.org-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.org-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-bright);
+}
+.org-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 600px) {
+  .org-cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (min-width: 1200px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
+@media (min-width: 1100px) {
+  .org-branches.is-split {
+    grid-template-columns: repeat(var(--branches), 1fr);
+    gap: 32px;
+    padding-top: var(--stem);
+  }
+  /* 가지: 두 그룹 가운데를 잇는 가로선 */
+  .org-branches.is-split::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(25% - 8px);
+    right: calc(25% - 8px);
+    height: var(--line-w);
+    background: var(--line);
+    transform: scaleX(var(--draw-x, 1));
+    transition: transform 0.7s var(--ease-out) 0.15s;
+  }
+  .org-branches.is-split .org-drop {
+    display: block;
+    position: absolute;
+    top: calc(var(--stem) * -1);
+    left: 50%;
+    width: var(--line-w);
+    height: calc(var(--stem) - 8px);
+    background: var(--line);
+    transform-origin: top;
+  }
+  .org-label {
+    justify-content: center;
+    align-self: center;
   }
 }
 
+/* 연결선 그리기 */
+.org-stem,
+.org-drop {
+  transform: scaleY(var(--draw-y, 1));
+  transition: transform 0.5s var(--ease-out);
+}
+.org-drop {
+  transition-delay: 0.6s;
+}
+.js-motion .org-stem:not(.drawn),
+.js-motion .org-drop:not(.drawn) {
+  --draw-y: 0;
+}
+.js-motion .org-branches:not(.drawn)::before {
+  --draw-x: 0;
+}
+
+/* ---------- 팀원 카드 ---------- */
 .card {
   position: relative;
   display: flex;
@@ -553,11 +668,20 @@ main > section {
   overflow: hidden;
   position: relative;
 }
+/* 배경과 톤이 제각각인 사진을 한 톤으로: 흑백 + 아래쪽 은은한 그라데이션 */
+.card-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 62%, color-mix(in srgb, var(--ink-2) 55%, transparent) 100%);
+  pointer-events: none;
+}
 .card-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.02);
+  object-position: 50% 12%;
+  filter: grayscale(1) contrast(1.04) brightness(0.98);
   background: var(--ink);
   transition: filter 0.6s ease, transform 0.6s var(--ease-out);
 }
@@ -708,6 +832,121 @@ main > section {
 .icon-link svg {
   width: 18px;
   height: 18px;
+}
+
+/* 역할 칩 */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.chip-main {
+  padding: 4px 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent-bright) 60%, transparent);
+}
+.chip-main.is-large {
+  font-size: 0.9375rem;
+  padding: 5px 14px;
+}
+.chip-sub {
+  padding: 3px 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  white-space: normal;
+}
+
+/* 대표 수치 */
+.keystat {
+  padding: 14px 0 2px;
+  border-top: 1px solid var(--line);
+}
+.keystat-value {
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.keystat-label {
+  margin-top: 6px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.hope {
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+.more {
+  margin-top: auto;
+  padding-top: 4px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+.more::after {
+  content: ' \2192';
+}
+.card .edu li {
+  overflow-wrap: anywhere;
+}
+
+/* PM 와이드 카드 */
+.lead-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.card-lead {
+  width: 100%;
+  max-width: 980px;
+  border-color: color-mix(in srgb, var(--accent-bright) 45%, var(--line));
+  box-shadow: 0 30px 60px -40px var(--shadow);
+}
+.card-lead .card-name {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.card-lead .keystat-value {
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+}
+@media (min-width: 768px) {
+  .card-lead {
+    display: grid;
+    grid-template-columns: minmax(240px, 360px) 1fr;
+  }
+  .card-lead .card-photo {
+    aspect-ratio: auto;
+    min-height: 100%;
+    align-self: stretch;
+  }
+  .card-lead .card-photo img {
+    position: absolute;
+    inset: 0;
+  }
+  .card-lead .card-body {
+    padding: 32px 36px;
+    gap: 16px;
+  }
 }
 
 /* 준비 중 카드 */
@@ -884,6 +1123,14 @@ main > section {
 .modal .edu {
   font-size: 1rem;
 }
+.modal .edu-small {
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+.modal .keystat {
+  border-top: 0;
+  padding-top: 0;
+}
 .modal .card-links {
   margin-top: 4px;
 }
@@ -968,6 +1215,13 @@ main > section {
   }
   .glow {
     display: none;
+  }
+  .org-stem,
+  .org-drop {
+    --draw-y: 1 !important;
+  }
+  .org-branches::before {
+    --draw-x: 1 !important;
   }
   ::view-transition-group(*),
   ::view-transition-old(*),

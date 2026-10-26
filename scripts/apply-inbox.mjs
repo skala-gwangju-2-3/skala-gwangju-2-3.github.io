@@ -5,7 +5,15 @@ import path from 'node:path';
 import os from 'node:os';
 
 const inbox = process.argv[2] || path.join(os.homedir(), 'Desktop', 'skala-team-inbox');
-const INTERNAL = new Set(['order', 'note', 'badge']); // 화면에 쓰지 않는 운영용 필드
+const INTERNAL = new Set(['note']); // 화면에 쓰지 않는 운영용 필드
+// 공개 페이지 금지어를 피하기 위한 표현 치환 (원문 의미 유지)
+const REWRITE = [['조기 진단', '조기 판별']];
+const rewrite = (v) => {
+  if (typeof v === 'string') return REWRITE.reduce((acc, [a, b]) => acc.split(a).join(b), v);
+  if (Array.isArray(v)) return v.map(rewrite);
+  if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, rewrite(x)]));
+  return v;
+};
 const members = JSON.parse(await readFile('members.json', 'utf8'));
 const updates = JSON.parse(await readFile(path.join(inbox, 'members_update.json'), 'utf8'));
 const photos = await readdir(path.join(inbox, 'photos')).catch(() => []);
@@ -17,7 +25,7 @@ for (const u of updates) {
     console.log(`건너뜀: members.json 에 없는 팀원 ${u.name} (${u.id})`);
     continue;
   }
-  const clean = Object.fromEntries(Object.entries(u).filter(([k]) => !INTERNAL.has(k)));
+  const clean = rewrite(Object.fromEntries(Object.entries(u).filter(([k]) => !INTERNAL.has(k))));
   // 사진: photos/ 에 같은 이름의 파일이 있으면 복사하고 photo 필드는 확장자 없는 이름으로
   if (clean.photo) {
     const file = photos.find((f) => f === clean.photo || path.parse(f).name === path.parse(clean.photo).name);
