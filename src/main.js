@@ -493,6 +493,77 @@ function renderWorkspace() {
   document.querySelector('#workspace .section-title')?.classList.add('reveal');
 }
 
+/* ---------- 히어로 상태 콘솔 ---------- */
+function parseDay(md) {
+  // "11.12" 또는 "12.09 – 12.11" 의 첫 날짜를 올해 날짜로
+  const m = String(md).match(/(\d{1,2})\.(\d{1,2})/);
+  if (!m) return null;
+  const now = new Date();
+  return new Date(now.getFullYear(), Number(m[1]) - 1, Number(m[2]));
+}
+function dday(date) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diff = Math.round((date - today) / 86400000);
+  return diff > 0 ? `D-${diff}` : diff === 0 ? 'D-DAY' : `D+${-diff}`;
+}
+function renderConsole() {
+  const log = document.getElementById('console-log');
+  const gauge = document.getElementById('console-gauge');
+  if (!log) return;
+  const tl = config.timeline ?? [];
+  const now = tl.find((t) => t.status === 'now');
+  const milestones = tl.filter((t) => t.status === 'milestone');
+  const ready = members.filter(isReady).length;
+  const counts = {};
+  members.forEach((m) => {
+    const r = normRole(m.role);
+    if (r) counts[r] = (counts[r] ?? 0) + 1;
+  });
+  const roles = Object.entries(counts).map(([r, n]) => `${r} ${n}`).join('  ');
+  const ws = (config.workspace ?? []).filter((w) => w.url).map((w) => w.label.toLowerCase());
+  const pad = (s, n) => (s + ' '.repeat(n)).slice(0, n);
+  const lines = [
+    { t: 'cmd', s: '$ team status --verbose' },
+    { t: 'ok', s: `✓ ${pad('members', 11)}${ready}/${members.length} verified` },
+    { t: 'ok', s: `✓ ${pad('roles', 11)}${roles}` },
+    { t: 'ok', s: `✓ ${pad('workspace', 11)}${ws.length ? ws.join(', ') + ' ready' : 'setting up'}` },
+    now ? { t: 'run', s: `● ${pad('sprint', 11)}${now.phase ?? ''} in progress` } : null,
+    ...milestones.map((m) => {
+      const d = parseDay(m.date);
+      return { t: 'wait', s: `○ ${pad((m.phase ?? m.title).toLowerCase().replace(/\s+/g, '-'), 11)}${m.date.split(/\s/)[0]}  ${d ? dday(d) : ''}` };
+    }),
+    { t: 'cmd', s: '$ _' },
+  ].filter(Boolean);
+  const final = milestones[milestones.length - 1];
+  const fd = final ? parseDay(final.date) : null;
+  if (gauge && fd) {
+    const start = parseDay(tl[0]?.date ?? '');
+    const total = start ? Math.max(1, (fd - start) / 86400000) : 49;
+    const left = Math.max(0, Math.round((fd - new Date().setHours(0, 0, 0, 0)) / 86400000));
+    const pct = Math.min(1, Math.max(0, 1 - left / total));
+    const r = 34, c = 2 * Math.PI * r;
+    gauge.innerHTML = `<svg viewBox="0 0 88 88" aria-hidden="true"><circle cx="44" cy="44" r="${r}" class="g-track"/><circle cx="44" cy="44" r="${r}" class="g-fill" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - pct)).toFixed(1)}"/></svg><div class="g-text"><b>${dday(fd)}</b><span>to final</span></div>`;
+  }
+  const pill = document.getElementById('status-pill-text');
+  if (pill && now) pill.textContent = `SPRINT ${String(tl.indexOf(now)).padStart(2, '0')}  ${now.phase}  진행 중`;
+  const render = (n) => {
+    log.replaceChildren(...lines.slice(0, n).map((l) => el('span', { class: `ln ln-${l.t}`, text: l.s + '\n' })));
+  };
+  log.setAttribute('aria-label', lines.map((l) => l.s).join(', '));
+  if (reduced) {
+    render(lines.length);
+    return;
+  }
+  let i = 0;
+  const step = () => {
+    i += 1;
+    render(i);
+    if (i < lines.length) setTimeout(step, 110);
+  };
+  setTimeout(step, 700);
+}
+
 /* ---------- 목표와 포부 ---------- */
 function renderMission() {
   const grid = document.getElementById('mission-grid');
@@ -646,6 +717,7 @@ function setupTheme() {
 renderTeamName();
 renderTagline();
 renderAvatarStack();
+renderConsole();
 renderMission();
 renderStats();
 renderOrg();

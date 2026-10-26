@@ -39,17 +39,29 @@
           <div class="glow"></div>
         </div>
         <div class="hero-inner wrap">
-          <p class="eyebrow"><span class="prompt">&gt; team.init()</span>&nbsp; %SUBTITLE% %TEAM_LABEL%<span class="cursor" aria-hidden="true"></span></p>
-          <div class="hero-title">
-            <h1 class="team-name" id="team-name">%TEAM_NAME%</h1>
-            <aside class="gwin-def" aria-label="팀 이름 뜻">
-              <p class="gwin-head"><b class="gwin-word">%MEAN_WORD%</b><span class="gwin-reading">%MEAN_READING%</span><span class="gwin-tag">%MEAN_TAG%</span></p>
-              <p class="gwin-example">%MEAN_EXAMPLE%</p>
-              <p class="gwin-definition">%MEAN_DEFINITION%</p>
-              <p class="gwin-story">%MEAN_STORY%</p>
-            </aside>
+          <div class="hero-grid">
+            <div class="hero-main">
+              <p class="status-pill" id="status-pill"><span class="pulse" aria-hidden="true"></span><span id="status-pill-text">SPRINT</span></p>
+              <p class="eyebrow"><span class="prompt">&gt; team.init()</span>&nbsp; %SUBTITLE% %TEAM_LABEL%<span class="cursor" aria-hidden="true"></span></p>
+              <h1 class="team-name" id="team-name">%TEAM_NAME%</h1>
+              <p class="tagline" id="tagline">%TAGLINE%</p>
+              <aside class="gwin-def" aria-label="팀 이름 뜻">
+                <p class="gwin-head"><b class="gwin-word">%MEAN_WORD%</b><span class="gwin-reading">%MEAN_READING%</span><span class="gwin-tag">%MEAN_TAG%</span><span class="gwin-example">%MEAN_EXAMPLE%</span></p>
+                <p class="gwin-definition">%MEAN_DEFINITION%</p>
+                <p class="gwin-story">%MEAN_STORY%</p>
+              </aside>
+            </div>
+            <div class="console" id="console" role="region" aria-label="팀 상태">
+              <div class="console-bar" aria-hidden="true">
+                <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                <span class="console-tab">gwin@skala: ~/team</span>
+              </div>
+              <div class="console-body">
+                <div class="console-gauge" id="console-gauge"></div>
+                <pre class="console-log" id="console-log"></pre>
+              </div>
+            </div>
           </div>
-          <p class="tagline" id="tagline">%TAGLINE%</p>
           <div class="hero-foot">
             <div class="avatar-stack" id="avatar-stack" role="list" aria-label="팀원"></div>
             <a class="scroll-cue" href="#mission" aria-label="Scroll, 아래로 이동">
