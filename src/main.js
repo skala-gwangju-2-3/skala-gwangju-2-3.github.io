@@ -72,6 +72,7 @@ document.title = `${config.teamName} | ${config.subtitle}`;
 function renderTeamName() {
   const h1 = document.getElementById('team-name');
   h1.setAttribute('aria-label', config.teamName);
+  h1.replaceChildren();
   const words = config.teamName.trim().split(/\s+/);
   let index = 0;
   let width = 0;
@@ -89,6 +90,7 @@ function renderTeamName() {
 
 function renderTagline() {
   const node = document.getElementById('tagline');
+  node.replaceChildren();
   const text = config.tagline || '';
   const mark = config.taglineHighlight;
   if (mark && text.includes(mark)) {
@@ -401,7 +403,6 @@ function setupTheme() {
     const theme = current();
     label.textContent = theme === 'dark' ? '화면 밝게' : '화면 어둡게';
     button.setAttribute('aria-pressed', root.hasAttribute('data-theme') ? 'true' : 'false');
-    button.setAttribute('aria-label', theme === 'dark' ? '밝은 화면으로 전환' : '어두운 화면으로 전환');
   };
   button.addEventListener('click', () => {
     const next = current() === 'dark' ? 'light' : 'dark';
