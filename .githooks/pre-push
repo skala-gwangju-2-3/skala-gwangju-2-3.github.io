@@ -1,0 +1,11 @@
+#!/bin/sh
+# push 전에 빌드와 금지어 검사를 먼저 돌린다. 실패하면 push 자체를 막아 배포 사이트를 지킨다.
+set -e
+echo "[pre-push] 빌드 확인"
+npm run build --silent >/dev/null
+test -f dist/index.html
+grep -q 'src="/assets/index-' dist/index.html
+if grep -r -n -i -E '보안|취약점|진단|주제|010-|security|hack|해킹' dist; then
+  echo "[pre-push] 금지어 발견, push 중단"; exit 1
+fi
+echo "[pre-push] 통과"

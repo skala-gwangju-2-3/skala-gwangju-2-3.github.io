@@ -613,7 +613,6 @@ function renderMission() {
   });
   if (config.mission?.evalNote) grid.after(el('p', { class: 'tl-note mission-note', text: config.mission.evalNote }));
   document.querySelector('#mission .section-title')?.classList.add('reveal');
-  document.querySelector('.mission-lead')?.classList.add('reveal');
 }
 
 /* ---------- 산출물 트래커 ---------- */
