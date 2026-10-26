@@ -22,7 +22,7 @@
   --be-fg: #a9cbf5; --be-bg: #1c3354;
   --fe-fg: #a9ddbb; --fe-bg: #1b3a38;
   color-scheme: dark;
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --gutter: 24px;
   --radius: 16px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
