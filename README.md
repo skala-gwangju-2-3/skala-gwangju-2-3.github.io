@@ -1,56 +1,74 @@
-# 광주 2반 3조 팀 소개 페이지
+# Gwin 팀 페이지
 
-SKALA 4기 광주 2반 3조의 팀 소개 페이지입니다.
-배포 주소: https://skala-gwangju-2-3.github.io/
+SKALA 4기 광주 2반 3조 Gwin의 팀 소개 페이지입니다.
 
-## 팀원 추가 방법
+- 주소: https://skala-gwangju-2-3.github.io/
+- 검색엔진 비노출(noindex), 팀원 소개와 일정만 공개합니다.
 
-1. `members.json` 에서 본인 항목을 채우고 `status` 를 `"ready"`, `consent` 를 `true` 로 바꿉니다.
-2. 사진 원본(jpg 또는 png)을 `assets/photos/` 에 넣고 `npm run photos` 를 실행합니다.
-   카드용 480px와 모달용 960px webp가 같은 폴더에 생깁니다. 원본은 커밋되지 않습니다.
-   `photo` 필드에는 확장자를 뺀 파일명을 적습니다. 예: `jang.jpg` 를 넣었으면 `"photo": "jang"`.
-3. `main` 에 push 하면 GitHub Actions가 자동으로 배포합니다.
+## 무엇을 어디서 고치나요
 
-비어 있는 필드는 화면에 표시되지 않습니다. `consent` 가 `false` 이면 사진 대신 이니셜 아바타가 나옵니다.
+화면 문구와 데이터는 JSON 파일 두 개에서 관리합니다. 코드를 몰라도 이 두 파일만 고치면 됩니다.
 
-## 받은 편지함(인박스)으로 한 번에 반영하기
+| 고칠 것 | 파일 | 필드 |
+| --- | --- | --- |
+| 팀명, 영문 표기, 상단 한 줄 | `config.json` | `teamName`, `teamLabel`, `subtitle` |
+| 캐치프레이즈와 밑줄 단어 | `config.json` | `tagline`, `taglineHighlight` |
+| 팀 이름 뜻풀이 | `config.json` | `teamNameMeaning` |
+| 미션 목표 카드와 평가 항목 태그 | `config.json` | `mission.goals[].title`, `body`, `evals` |
+| 수상 목표 칩 | `config.json` | `target` |
+| 7주 로드맵 | `config.json` | `timeline` |
+| 산출물 트래커 | `config.json` | `deliverables[].status` (`todo`, `wip`, `done`) |
+| 팀 워크스페이스 | `config.json` | `workspace`, `workspacePrivate` |
+| 일하는 방식 | `config.json` | `principles` |
+| 팀원 정보 | `members.json` | 아래 표 참고 |
 
-슬랙으로 받은 양식과 사진을 `~/Desktop/skala-team-inbox/` 에 모아 두면 한 명령으로 반영됩니다.
+## 팀원 정보 (`members.json`)
 
-```bash
-node scripts/apply-inbox.mjs && npm run photos && npm run build
-```
+| 필드 | 뜻 |
+| --- | --- |
+| `order` | 조직도 순서 (1이 PM) |
+| `group` | 조직도 묶음 (예: AI · 데이터, 서비스 개발) |
+| `teamRole`, `teamRoleSub` | 큰 역할 칩, 작은 세부 칩 |
+| `role`, `roleAlt` | 희망 1순위, 2순위 |
+| `badge` | PM 카드 위 직책 배지 |
+| `keyStat`, `keyStatLabel` | 대표 수치와 설명. `6초 → 1.8초` 처럼 화살표를 쓰면 전후 값으로 표시 |
+| `education`, `extraEducation`, `labs` | 학력, 추가 교육, 연구실 |
+| `intro` | 한 줄 소개. 줄바꿈을 넣으면 그대로 줄이 바뀜 |
+| `highlights` | 대표 경력. `**1.8초**` 처럼 감싸면 굵은 강조색 |
+| `agentExp` | 상세 창 경험 요약 |
+| `pledge`, `theme` | 상세 창 사진 아래 출사표와 색 (`orange`, `violet`, `teal`, `blue`, `green`) |
+| `links.github`, `links.portfolio` | 상세 창 링크 |
+| `photo`, `consent`, `status` | 사진 파일명(확장자 제외), 공개 동의, `ready` 또는 `pending` |
 
-- `members_update.json` 의 각 항목을 `members.json` 에서 같은 id(또는 이름) 항목과 교체합니다.
-- `photos/` 의 사진을 `assets/photos/` 로 복사하고 webp 로 변환합니다.
-- `order`, `note`, `badge` 필드는 운영용이라 화면에 쓰지 않습니다.
-- `members_update.json` 에 없는 팀원은 그대로 둡니다.
+비어 있는 필드는 화면에 나오지 않습니다.
 
-## 화면 모드
+## 사진 바꾸기
 
-시스템 설정(밝게, 어둡게)을 따릅니다. 오른쪽 위 버튼으로 바꾸면 그 선택이 브라우저에 저장되고, 시스템 설정과 같아지면 저장값을 지워 다시 시스템을 따릅니다.
+1. 원본(jpg 또는 png)을 `assets/photos/` 에 넣습니다. 원본은 저장소에 올라가지 않습니다.
+2. `npm run photos` 로 카드용 480px, 상세 창용 960px webp 를 만듭니다.
+3. `members.json` 의 `photo` 에 확장자를 뺀 파일명을 적습니다.
 
-## 팀 워크스페이스 링크
+## 일정이 지나면
 
-`config.json` 의 `workspace` 배열에서 관리합니다. `url` 이 비어 있으면 "준비 중"으로 비활성 표시되고, 주소를 넣으면 자동으로 새 탭 링크가 됩니다. `status` 에 글자를 넣으면 배지 문구가 바뀝니다.
+로드맵의 "지금 여기"와 "완료" 표시, 상단 진행 단계, D-day 는 오늘 날짜로 자동 계산됩니다. 일정이 바뀌면 `timeline` 의 날짜만 고치면 됩니다.
 
-## 배포 안전장치
+## 배포
 
-- 빌드, 빌드 결과 검사(번들 존재, 원본 엔트리 없음, 금지어 0건) 중 하나라도 실패하면 배포 단계가 돌지 않아 기존 사이트가 그대로 유지됩니다.
-- 배포 뒤 실제 주소가 200을 주고 `/assets/` 번들을 받아 오는지 스모크 체크합니다. 실패하면 Actions 에 빨간 표시가 뜹니다.
+`main` 에 push 하면 GitHub Actions 가 1~2분 안에 배포합니다. 사이트가 끊기지 않도록 세 단계로 막습니다.
 
-## 사이트가 끊기지 않게 하는 장치
+1. push 전 검사: 처음 한 번 `git config core.hooksPath .githooks` 를 실행하면, push 할 때마다 빌드와 공개 금지 문구 검사를 먼저 돌리고 실패하면 push 를 막습니다.
+2. 배포 전 검사: 빌드나 검사가 실패하면 배포 단계가 돌지 않아 기존 사이트가 그대로 남습니다.
+3. 배포 후 확인: 실제 주소가 200 과 `/assets/` 번들을 주는지 확인합니다.
 
-1. push 전 검사: 처음 한 번 `git config core.hooksPath .githooks` 를 실행해 두면, push 할 때마다 빌드와 금지어 검사를 먼저 돌리고 실패하면 push 를 막습니다.
-2. 배포 전 검사: Actions 에서 빌드나 검사가 실패하면 배포 단계가 돌지 않아 기존 사이트가 그대로 남습니다.
-3. 배포 후 확인: 새 버전이 올라간 뒤 실제 주소가 200 과 `/assets/` 번들을 주는지 확인합니다.
+GitHub Pages 는 새 버전이 완성된 뒤 한 번에 교체되므로 배포 중에도 이전 버전이 보입니다.
 
-GitHub Pages 는 새 버전이 완성된 뒤에 한 번에 교체되므로, 배포 중에도 이전 버전이 계속 보입니다.
+### 공개 금지 문구
 
-## 팀명 바꾸기
+공개되면 안 되는 문구 목록은 저장소에 두지 않습니다.
 
-`config.json` 의 `teamName` 만 바꾸면 됩니다. 글자 수에 맞춰 히어로 글자 크기가 자동으로 조절됩니다.
-영문명, 태그라인, 일하는 방식, 푸터 문구도 같은 파일에서 관리합니다.
+- 로컬 검사: `.private/forbidden.txt` (저장소 제외, 팀 내부로 공유)
+- 배포 검사: 저장소 Settings → Secrets and variables → Actions 의 `FORBIDDEN_PATTERN`
+- 반영 스크립트의 표현 치환: `.private/rewrite.json`
 
 ## 로컬 실행
 
@@ -64,20 +82,20 @@ npm run dev
 | `npm run dev` | 개발 서버 |
 | `npm run build` | `dist/` 에 정적 파일 생성 |
 | `npm run preview` | 빌드 결과 미리보기 (4173 포트) |
-| `npm run photos` | `assets/photos/` 원본을 webp로 변환 |
-| `npm run og` | `config.json` 으로 공유 미리보기 이미지 생성 |
-| `npm run shots` | Playwright로 데스크톱, 태블릿, 모바일, 라이트 모드 스크린샷과 reduced-motion 검사 |
-| `node scripts/apply-inbox.mjs` | 인박스 폴더의 팀원 양식과 사진 반영 |
+| `npm run photos` | 사진 webp 변환 |
+| `npm run og` | 공유 미리보기 이미지 생성 |
+| `npm run shots` | 데스크톱, 태블릿, 모바일, 라이트 모드 스크린샷 |
 
 ## 구조
 
 ```
-config.json              팀 정보 (팀명, 태그라인, 일하는 방식, 푸터)
-members.json             팀원 데이터
-assets/photos/           팀원 사진 (webp만 커밋)
-public/                  robots.txt, favicon.svg, og.png
-src/main.js              렌더링과 모션
-src/style.css            스타일
-scripts/                 사진 변환, OG 생성, 스크린샷
-.github/workflows/       GitHub Pages 배포
+config.json            팀 정보, 미션, 로드맵, 산출물, 워크스페이스, 원칙
+members.json           팀원 데이터
+assets/photos/         팀원 사진 (webp 만 저장소에 포함)
+public/                robots.txt, 파비콘, 홈 화면 아이콘, 공유 이미지
+src/main.js            렌더링과 모션
+src/style.css          스타일 (다크, 라이트)
+scripts/               사진 변환, 공유 이미지, 스크린샷, 팀원 정보 반영
+.githooks/             push 전 검사
+.github/workflows/     GitHub Pages 배포
 ```

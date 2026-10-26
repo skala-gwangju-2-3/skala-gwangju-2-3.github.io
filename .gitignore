@@ -9,3 +9,6 @@ assets/photos/*.JPG
 shots/
 lighthouse/
 refs/
+
+# 공개 저장소에 올리지 않는 팀 내부 설정
+.private/
