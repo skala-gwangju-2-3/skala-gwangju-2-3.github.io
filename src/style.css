@@ -2202,10 +2202,24 @@ a.ws-card:focus-visible {
   background: var(--ink);
 }
 @media (min-width: 768px) {
+  /* 사진과 출사표를 창 높이 안에 함께 고정: 사진이 줄어들고 출사표는 항상 다 보임 */
   .modal-side {
     position: sticky;
     top: 0;
     align-self: start;
+    height: min(88svh, 900px);
+  }
+  .modal-side .modal-photo {
+    flex: 1 1 auto;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+  .modal-side .modal-photo img {
+    height: 100%;
+    object-position: 50% 15%;
+  }
+  .modal-side .pledge {
+    flex: 0 0 auto;
   }
 }
 .pledge {
