@@ -2,6 +2,7 @@
   --ink: #0f1a2e;
   --ink-2: rgba(21, 35, 61, 0.72);
   --ink-solid: #15233d;
+  --console-bg: #0b1424;
   --bg-grad: linear-gradient(180deg, #0a1020 0%, #0f1a2e 45%, #0d1628 100%);
   --line: #24365a;
   --text: #e8eef7;
@@ -34,6 +35,7 @@
     --ink: #eef2f7;
     --ink-2: rgba(255, 255, 255, 0.86);
     --ink-solid: #ffffff;
+  --console-bg: #ffffff;
     --bg-grad: linear-gradient(180deg, #f3f6fa 0%, #eef2f7 50%, #e9eef5 100%);
     --line: #d3dce8;
     --text: #0f1a2e;
@@ -59,6 +61,7 @@
   --ink: #eef2f7;
   --ink-2: rgba(255, 255, 255, 0.86);
   --ink-solid: #ffffff;
+  --console-bg: #ffffff;
   --bg-grad: linear-gradient(180deg, #f3f6fa 0%, #eef2f7 50%, #e9eef5 100%);
   --line: #d3dce8;
   --text: #0f1a2e;
@@ -605,7 +608,7 @@ main > section {
 .console {
   border-radius: 14px;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--ink-solid) 88%, #000);
+  background: var(--console-bg);
   box-shadow: 0 0 0 1px rgba(var(--glow-rgb), 0.12), 0 30px 60px -30px var(--shadow), 0 0 60px -20px rgba(var(--glow-rgb), 0.35);
   overflow: hidden;
   opacity: 0;
