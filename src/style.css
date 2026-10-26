@@ -1777,6 +1777,134 @@ a.ws-card:focus-visible {
   }
 }
 
+/* ---------- 산출물 트래커 ---------- */
+.dv-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+.dv-count {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.dv-count b {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+.dv-count span {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.dv-count .dv-wip {
+  color: var(--orange);
+}
+.dv-bar {
+  position: relative;
+  flex: 1;
+  display: flex;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+.dv-bar-done {
+  background: var(--accent-bright);
+  box-shadow: 0 0 10px rgba(var(--glow-rgb), 0.6);
+}
+.dv-bar-wip {
+  background: var(--orange);
+  opacity: 0.8;
+}
+.dv-list {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+.dv-row {
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  grid-template-areas: 'code name status' 'code due due';
+  align-items: center;
+  gap: 4px 14px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--line);
+  transition: background-color 0.2s ease;
+}
+.dv-row:first-child {
+  border-top: 0;
+}
+.dv-row:hover {
+  background: rgba(var(--glow-rgb), 0.05);
+}
+.dv-code {
+  grid-area: code;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.dv-name {
+  grid-area: name;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.dv-due {
+  grid-area: due;
+  display: flex;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.dv-due-phase::before {
+  content: 'due ';
+  opacity: 0.7;
+}
+.dv-status {
+  grid-area: status;
+  justify-self: end;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.dv-status.is-todo {
+  color: var(--muted);
+  border: 1px dashed var(--line);
+}
+.dv-status.is-wip {
+  color: var(--orange);
+  border: 1px solid color-mix(in srgb, var(--orange) 60%, transparent);
+}
+.dv-status.is-done {
+  color: var(--ink-solid);
+  background: var(--accent-bright);
+}
+.dv-row.is-done .dv-name {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(var(--glow-rgb), 0.6);
+}
+.dv-note {
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .dv-row {
+    grid-template-columns: 90px 1fr 170px 120px;
+    grid-template-areas: 'code name due status';
+    padding: 15px 22px;
+  }
+}
+
 /* ---------- 일하는 방식 ---------- */
 .principle-list {
   border-top: 1px solid var(--line);

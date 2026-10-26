@@ -548,6 +548,13 @@ function renderConsole() {
     { t: 'ok', s: `✓ ${pad('roles', 11)}${roles}` },
     { t: 'ok', s: `✓ ${pad('workspace', 11)}${ws.length ? ws.join(', ') + ' ready' : 'setting up'}` },
     now ? { t: 'run', s: `● ${pad('phase', 11)}${now.phase ?? ''} in progress` } : null,
+    (config.deliverables ?? []).length
+      ? (() => {
+          const ds = config.deliverables;
+          const dn = ds.filter((d) => d.status === 'done').length;
+          return { t: dn === ds.length ? 'ok' : 'wait', s: `${dn === ds.length ? '✓' : '○'} ${pad('docs', 11)}${dn}/${ds.length} ${dn === ds.length ? 'done' : 'queued'}` };
+        })()
+      : null,
     ...milestones.map((m) => {
       const d = parseDay(m.date);
       return { t: 'wait', s: `○ ${pad((m.phase ?? m.title).toLowerCase().replace(/\s+/g, '-'), 11)}${m.date.split(/\s/)[0]}  ${d ? dday(d) : ''}` };
@@ -603,6 +610,47 @@ function renderMission() {
   });
   document.querySelector('#mission .section-title')?.classList.add('reveal');
   document.querySelector('.mission-lead')?.classList.add('reveal');
+}
+
+/* ---------- 산출물 트래커 ---------- */
+const DV_LABEL = { todo: 'QUEUED', wip: 'IN PROGRESS', done: 'DONE' };
+function renderDeliverables() {
+  const list = document.getElementById('dv-list');
+  const head = document.getElementById('dv-head');
+  const items = config.deliverables ?? [];
+  if (!list) return;
+  if (!items.length) {
+    document.getElementById('deliverables')?.remove();
+    return;
+  }
+  const tl = timelineWithStatus();
+  const dueDate = (phase) => {
+    const t = tl.find((x) => x.phase === phase);
+    if (!t) return '';
+    const r = dayRange(t.date);
+    return r ? `${String(r.end.getMonth() + 1).padStart(2, '0')}.${String(r.end.getDate()).padStart(2, '0')}` : '';
+  };
+  const done = items.filter((d) => d.status === 'done').length;
+  const wip = items.filter((d) => d.status === 'wip').length;
+  head.append(
+    el('div', { class: 'dv-count' }, [el('b', { text: `${done}/${items.length}` }), el('span', { text: 'done' }), wip ? el('span', { class: 'dv-wip', text: `${wip} in progress` }) : null]),
+    el('div', { class: 'dv-bar', role: 'progressbar', 'aria-valuemin': 0, 'aria-valuemax': items.length, 'aria-valuenow': done, 'aria-label': '산출물 진행률' }, [
+      el('span', { class: 'dv-bar-done', style: `width:${(done / items.length) * 100}%` }),
+      el('span', { class: 'dv-bar-wip', style: `width:${(wip / items.length) * 100}%` }),
+    ]),
+  );
+  items.forEach((d, i) => {
+    const st = DV_LABEL[d.status] ? d.status : 'todo';
+    list.append(
+      el('li', { class: `dv-row is-${st} reveal`, style: `--reveal-delay:${i * 40}ms` }, [
+        el('span', { class: 'dv-code', text: d.code }),
+        el('span', { class: 'dv-name', text: d.name }),
+        el('span', { class: 'dv-due' }, [el('span', { class: 'dv-due-phase', text: d.due }), el('span', { class: 'dv-due-date', text: dueDate(d.due) })]),
+        el('span', { class: `dv-status is-${st}`, text: DV_LABEL[st] }),
+      ]),
+    );
+  });
+  document.querySelector('#deliverables .section-title')?.classList.add('reveal');
 }
 
 /* ---------- 기록 타임라인 ---------- */
@@ -744,6 +792,7 @@ setupOrgLines();
 setupTyping();
 renderWorkspace();
 renderTimeline();
+renderDeliverables();
 renderPrinciples();
 setupRevealFallback();
 setupGlow();

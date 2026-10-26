@@ -157,5 +157,51 @@
         "body": "주간 멘토 리뷰로 스펙을 고정하고, 운영 환경 기준으로 QA합니다."
       }
     ]
-  }
+  },
+  "deliverablesTitle": "산출물 트래커",
+  "deliverables": [
+    {
+      "code": "DOC-01",
+      "name": "프로젝트 정의, 요구사항 정의서",
+      "due": "DESIGN",
+      "status": "todo"
+    },
+    {
+      "code": "DOC-02",
+      "name": "WBS",
+      "due": "DESIGN",
+      "status": "todo"
+    },
+    {
+      "code": "DOC-03",
+      "name": "아키텍처 정의서",
+      "due": "DESIGN",
+      "status": "todo"
+    },
+    {
+      "code": "DOC-04",
+      "name": "설계서 (UI, API, DB, 요구사항 추적표)",
+      "due": "MVP",
+      "status": "todo"
+    },
+    {
+      "code": "DOC-05",
+      "name": "중간구현 결과서",
+      "due": "MID CHECK",
+      "status": "todo"
+    },
+    {
+      "code": "DOC-06",
+      "name": "테스트, 결함조치 결과서",
+      "due": "POLISH",
+      "status": "todo"
+    },
+    {
+      "code": "DOC-07",
+      "name": "최종 결과서",
+      "due": "PRELIM",
+      "status": "todo"
+    }
+  ],
+  "deliverablesNote": "SKALA 산출물 템플릿 기준, 상태는 팀이 직접 갱신"
 }
