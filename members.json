@@ -1,0 +1,30 @@
+[
+  {
+    "id": "jang",
+    "name": "장병헌",
+    "role": "Frontend",
+    "roleAlt": "AI",
+    "education": [
+      "전남대학교 철학과 졸업",
+      "SSAFY 14기 (1,628시간, 광주캠퍼스 반대표)",
+      "SKALA 4기"
+    ],
+    "intro": "국방·신약·결제 도메인에서 LLM 에이전트를 설계·구현해 왔습니다. LLM에게 무엇을 맡기고 무엇을 코드로 묶을지가 관심사입니다.",
+    "highlights": [
+      "SKT 모두의 Promp.T 공모전 Life AX 부문 최우수상 (2026.8)",
+      "D4D 국방 AI 해커톤 Oregon UAS Accelerator 특별 트랙 선정",
+      "SKALA 미니 프로젝트 ARGUS: 근거는 에이전트가 붙이고 승인은 사람이 하는 온프레미스 승인 에이전트 (백엔드 설계·발표)",
+      "Google×Solana AI Agentic Hackathon '장보고': 결정론 정책 엔진 6단계 검증 (팀장·풀스택)",
+      "SSAFY 특화 프로젝트 DailyLog 우수상(3등) (PM·FE)"
+    ],
+    "agentExp": "LLM 에이전트 다수 (ARGUS, 장보고, Rounds)",
+    "links": { "github": "https://github.com/jang961111-hash", "portfolio": "https://jang961111-hash.github.io/" },
+    "photo": "jang",
+    "consent": true,
+    "status": "ready"
+  },
+  { "id": "park-yeonju", "name": "박연주", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" },
+  { "id": "park-iwan", "name": "박이완", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" },
+  { "id": "oh-younghyun", "name": "오영현", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" },
+  { "id": "lee-hyobin", "name": "이효빈", "role": "", "roleAlt": "", "education": [], "intro": "", "highlights": [], "agentExp": "", "links": { "github": "", "portfolio": "" }, "photo": "", "consent": false, "status": "pending" }
+]

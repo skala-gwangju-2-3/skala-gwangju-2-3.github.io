@@ -1,0 +1,872 @@
+:root {
+  --ink: #0e1726;
+  --ink-2: #172235;
+  --line: #2a3a55;
+  --text: #f3f5f9;
+  --muted: #a9b4c8;
+  --accent: #f2994a;
+  --accent-soft: rgba(242, 153, 74, 0.14);
+  --gutter: 24px;
+  --radius: 14px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --title-w: 6;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  font-feature-settings: 'tnum' 1;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.wrap {
+  width: min(1200px, 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+  border-radius: 8px;
+}
+.skip:focus {
+  top: 16px;
+}
+
+/* ---------- 공통 섹션 ---------- */
+section {
+  padding-block: clamp(72px, 10vw, 140px);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+.section-title::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+}
+
+/* ---------- 히어로 ---------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: end;
+  padding-block: 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: screen;
+}
+.glow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 153, 74, 0.11) 0%, rgba(242, 153, 74, 0.04) 35%, transparent 62%);
+  transform: translate(calc(var(--gx, 50vw) - 35vmax), calc(var(--gy, 40vh) - 35vmax));
+  will-change: transform;
+}
+
+.hero-inner {
+  padding-top: clamp(96px, 14vh, 160px);
+  padding-bottom: clamp(32px, 5vh, 56px);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: clamp(16px, 2vw, 28px);
+}
+.eyebrow::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: var(--accent);
+}
+
+.team-name {
+  font-size: clamp(2.75rem, min(calc((100vw - var(--gutter) * 2) / var(--title-w)), 48vh), 40rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  margin-left: -0.03em;
+  white-space: nowrap;
+}
+.team-name .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.team-name .word + .word {
+  margin-left: 0.22em;
+}
+.team-name .ch {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translateY(0.45em);
+  animation: rise 0.9s var(--ease-out) forwards;
+  animation-delay: calc(var(--i) * 45ms + 80ms);
+}
+@keyframes rise {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.team-name-en {
+  margin-top: clamp(12px, 1.6vw, 20px);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+  opacity: 0;
+  animation: fade 0.8s ease-out 0.7s forwards;
+}
+
+.tagline {
+  margin-top: clamp(28px, 4vw, 48px);
+  font-size: clamp(1.25rem, 2.4vw, 1.875rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  max-width: 24ch;
+  opacity: 0;
+  animation: fade 0.8s ease-out 0.9s forwards;
+}
+.mark {
+  position: relative;
+  display: inline-block;
+}
+.mark::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.02em;
+  height: 0.14em;
+  background: var(--accent);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: draw 0.7s var(--ease-out) 1.5s forwards;
+  z-index: -1;
+  opacity: 0.9;
+}
+@keyframes draw {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes fade {
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-top: clamp(48px, 8vh, 96px);
+  opacity: 0;
+  animation: fade 0.8s ease-out 1.2s forwards;
+}
+
+.avatar-stack {
+  display: flex;
+}
+.avatar {
+  --size: 48px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--ink-2);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--muted);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.avatar + .avatar {
+  margin-left: -12px;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.avatar.is-ready {
+  color: var(--text);
+}
+
+.scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.scroll-cue-line {
+  position: relative;
+  width: 1px;
+  height: 56px;
+  background: var(--line);
+  overflow: hidden;
+}
+.scroll-cue-line::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  background: var(--accent);
+  animation: cue 1.8s ease-in-out infinite;
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(260%);
+  }
+}
+
+/* ---------- 섹션 등장 ---------- */
+.reveal {
+  --reveal-delay: 0ms;
+}
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+@supports not (animation-timeline: view()) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s var(--ease-out) var(--reveal-delay), transform 0.7s var(--ease-out) var(--reveal-delay);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- 한눈에 보기 ---------- */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--line);
+}
+.stat {
+  padding: clamp(24px, 3vw, 40px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.stat-value {
+  font-size: clamp(3.25rem, 7vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat-value small {
+  font-size: 0.4em;
+  font-weight: 600;
+  color: var(--muted);
+  margin-left: 0.15em;
+  letter-spacing: 0;
+}
+.stat-label {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+@media (min-width: 768px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 32px;
+  }
+}
+
+/* ---------- 팀원 카드 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  perspective: 1200px;
+}
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.35s var(--ease-out), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover,
+.card:focus-within {
+  border-color: rgba(242, 153, 74, 0.55);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+}
+.card.is-tilting {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-photo {
+  aspect-ratio: 3 / 4;
+  background: var(--ink);
+  overflow: hidden;
+  position: relative;
+}
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.02);
+  transition: filter 0.6s ease, transform 0.6s var(--ease-out);
+}
+.card:hover .card-photo img,
+.card:focus-within .card-photo img {
+  filter: grayscale(0);
+}
+
+.initial {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-size: clamp(4rem, 9vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--line);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(242, 153, 74, 0.08), transparent 55%),
+    var(--ink);
+}
+
+.card-body {
+  padding: 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.card-name {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.card-open {
+  text-align: left;
+}
+.card-open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.card-open:focus-visible {
+  outline: none;
+}
+.card:has(.card-open:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+.badge.alt {
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.edu {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.edu li + li {
+  margin-top: 2px;
+}
+
+.intro {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.hl {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+.hl li {
+  position: relative;
+  padding-left: 16px;
+  color: var(--text);
+}
+.hl li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.hl-more {
+  color: var(--muted);
+  font-size: 0.875rem;
+  padding-left: 16px;
+}
+
+.card-links {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+.icon-link {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.icon-link:hover,
+.icon-link:focus-visible {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.icon-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* 준비 중 카드 */
+.card.is-pending {
+  border-style: dashed;
+}
+.card.is-pending:hover {
+  border-color: var(--line);
+  box-shadow: none;
+}
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.skeleton span {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--line) 0%, rgba(42, 58, 85, 0.45) 100%);
+}
+.skeleton span:nth-child(1) {
+  width: 60%;
+}
+.skeleton span:nth-child(2) {
+  width: 90%;
+}
+.skeleton span:nth-child(3) {
+  width: 75%;
+}
+.pending-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.pending-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--muted);
+}
+
+/* ---------- 일하는 방식 ---------- */
+.principle-list {
+  border-top: 1px solid var(--line);
+}
+.principle {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 16px 24px;
+  padding: clamp(28px, 4vw, 44px) 0;
+  border-bottom: 1px solid var(--line);
+}
+.principle-num {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.principle-title {
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+.principle-body {
+  margin-top: 8px;
+  color: var(--muted);
+  max-width: 48ch;
+}
+@media (min-width: 768px) {
+  .principle {
+    grid-template-columns: 120px 1fr;
+  }
+}
+
+/* ---------- 푸터 ---------- */
+.footer {
+  padding: 40px 0 48px;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- 모달 ---------- */
+.modal {
+  width: min(960px, calc(100vw - 32px));
+  max-height: min(88svh, 900px);
+  padding: 0;
+  margin: auto;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--ink-2);
+  color: var(--text);
+  overflow: hidden;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
+}
+.modal::backdrop {
+  background: rgba(14, 23, 38, 0.8);
+}
+.modal-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-height: min(88svh, 900px);
+  overflow: auto;
+}
+.modal-photo {
+  aspect-ratio: 3 / 4;
+  background: var(--ink);
+  overflow: hidden;
+}
+.modal-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.modal-content {
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.modal-name {
+  font-size: 1.875rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+.modal-close {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.modal-close:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+.modal h3 {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.modal .hl {
+  border-top: 0;
+  padding-top: 0;
+}
+.modal .card-links {
+  margin-top: 4px;
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.text-link:hover,
+.text-link:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.text-link svg {
+  width: 16px;
+  height: 16px;
+}
+@media (min-width: 768px) {
+  .modal-inner {
+    grid-template-columns: 300px 1fr;
+  }
+  .modal-photo {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+  .modal-content {
+    padding: 36px 36px 40px;
+  }
+}
+
+/* View Transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.28s;
+}
+::view-transition-old(member-photo),
+::view-transition-new(member-photo) {
+  animation-duration: 0.42s;
+  animation-timing-function: var(--ease-out);
+  mix-blend-mode: normal;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* ---------- 모션 끄기 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .team-name .ch {
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  .team-name-en,
+  .tagline,
+  .hero-foot {
+    opacity: 1;
+  }
+  .mark::after {
+    transform: none;
+  }
+  .reveal,
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .scroll-cue-line::after {
+    display: none;
+  }
+  .card-photo img {
+    filter: none;
+  }
+  .glow {
+    display: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

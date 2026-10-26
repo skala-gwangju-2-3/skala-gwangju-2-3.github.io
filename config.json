@@ -1,0 +1,13 @@
+{
+  "teamName": "광주 2반 3조",
+  "teamNameEn": "Gwangju Class 2 · Team 3",
+  "subtitle": "SKALA 4기",
+  "tagline": "다른 곳에서 와서, 같은 방향으로 갑니다",
+  "taglineHighlight": "같은 방향",
+  "principles": [
+    { "title": "근거로 말합니다", "body": "판단에는 항상 이유와 출처를 붙입니다." },
+    { "title": "모르는 건 모른다고 합니다", "body": "확인하지 못한 것은 확인하지 못했다고 표시합니다." },
+    { "title": "작게 끝까지 완성합니다", "body": "한 바퀴를 먼저 돌리고, 그다음에 넓힙니다." }
+  ],
+  "footer": "SKALA 4기 광주캠퍼스 · 2026"
+}

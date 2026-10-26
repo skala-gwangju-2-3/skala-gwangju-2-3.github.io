@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+# 사진 원본은 올리지 않습니다. webp 변환본만 커밋합니다.
+assets/photos/*.jpg
+assets/photos/*.jpeg
+assets/photos/*.png
+assets/photos/*.JPG
+shots/
+lighthouse/

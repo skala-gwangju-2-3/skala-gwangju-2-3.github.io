@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0E1726" />
+    <title>광주 2반 3조 | SKALA 4기</title>
+    <meta name="description" content="SKALA 4기 광주 2반 3조 팀 소개" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="광주 2반 3조 | SKALA 4기" />
+    <meta property="og:description" content="다른 곳에서 와서, 같은 방향으로 갑니다" />
+    <meta property="og:image" content="https://skala-gwangju-2-3.github.io/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <a class="skip" href="#members">본문으로 건너뛰기</a>
+    <main id="app">
+      <section class="hero" id="hero" aria-labelledby="team-name">
+        <div class="hero-bg" aria-hidden="true">
+          <div class="glow"></div>
+        </div>
+        <div class="hero-inner wrap">
+          <p class="eyebrow" data-config="subtitle"></p>
+          <h1 class="team-name" id="team-name"></h1>
+          <p class="team-name-en" data-config="teamNameEn"></p>
+          <p class="tagline" id="tagline"></p>
+          <div class="hero-foot">
+            <div class="avatar-stack" id="avatar-stack" role="list" aria-label="팀원"></div>
+            <a class="scroll-cue" href="#glance" aria-label="아래로 스크롤">
+              <span class="scroll-cue-line"></span>
+              <span class="scroll-cue-text">Scroll</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="glance" id="glance" aria-labelledby="glance-title">
+        <div class="wrap">
+          <h2 class="section-title" id="glance-title">팀 한눈에 보기</h2>
+          <dl class="stats" id="stats"></dl>
+        </div>
+      </section>
+
+      <section class="members" id="members" aria-labelledby="members-title">
+        <div class="wrap">
+          <h2 class="section-title" id="members-title">팀원</h2>
+          <ul class="grid" id="member-grid"></ul>
+        </div>
+      </section>
+
+      <section class="principles" id="principles" aria-labelledby="principles-title">
+        <div class="wrap">
+          <h2 class="section-title" id="principles-title">팀이 일하는 방식</h2>
+          <ol class="principle-list" id="principle-list"></ol>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <p data-config="footer"></p>
+      </div>
+    </footer>
+
+    <dialog class="modal" id="member-modal" aria-labelledby="modal-name">
+      <div class="modal-inner" id="modal-inner"></div>
+    </dialog>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
