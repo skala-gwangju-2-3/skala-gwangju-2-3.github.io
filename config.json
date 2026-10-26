@@ -43,6 +43,12 @@
       "status": ""
     },
     {
+      "label": "Drive",
+      "desc": "산출물 문서 폴더",
+      "url": "",
+      "status": ""
+    },
+    {
       "label": "GitHub",
       "desc": "코드 저장소",
       "url": "https://github.com/skala-gwangju-2-3",

@@ -35,6 +35,8 @@ const ICONS = {
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 16V8l6 8V8"/></svg>',
   wbs:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h9M7 12h10M10 18h10"/></svg>',
+  drive:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>',
   close:
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
 };
@@ -503,6 +505,7 @@ function renderWorkspace() {
     if (k.includes('slack')) return ICONS.slack;
     if (k.includes('notion')) return ICONS.notion;
     if (k.includes('wbs')) return ICONS.wbs;
+    if (k.includes('drive')) return ICONS.drive;
     return ICONS.external;
   };
   items.forEach((w, i) => {
