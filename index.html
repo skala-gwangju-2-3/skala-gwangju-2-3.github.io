@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#0E1726" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#F6F7FA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0A1020" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#EEF2F7" media="(prefers-color-scheme: light)" />
     <title>%TEAM_NAME% | %SUBTITLE%</title>
     <meta name="description" content="%SUBTITLE% %TEAM_NAME% 팀 소개" />
     <meta property="og:type" content="website" />
@@ -18,6 +18,9 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght%40400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
     <link rel="stylesheet" href="/src/style.css" />
     <script>
@@ -29,14 +32,14 @@
   </head>
   <body>
     <a class="skip" href="#members">본문으로 건너뛰기</a>
-    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span id="theme-toggle-label">화면 밝게</span></button>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span id="theme-toggle-label">어둡게 보기</span></button>
     <main id="app">
       <section class="hero" id="hero" aria-labelledby="team-name">
         <div class="hero-bg" aria-hidden="true">
           <div class="glow"></div>
         </div>
         <div class="hero-inner wrap">
-          <p class="eyebrow" data-config="subtitle">%SUBTITLE%</p>
+          <p class="eyebrow"><span class="prompt">&gt; team.init()</span>&nbsp; %SUBTITLE% %TEAM_NAME%<span class="cursor" aria-hidden="true"></span></p>
           <h1 class="team-name" id="team-name">%TEAM_NAME%</h1>
           <p class="team-name-en" data-config="teamNameEn">%TEAM_NAME_EN%</p>
           <p class="tagline" id="tagline">%TAGLINE%</p>
@@ -52,28 +55,28 @@
 
       <section class="glance" id="glance" aria-labelledby="glance-title">
         <div class="wrap">
-          <h2 class="section-title" id="glance-title">팀 한눈에 보기</h2>
+          <h2 class="section-title" id="glance-title"><span class="section-code">// 00 OVERVIEW</span><span class="section-name">우리 팀을 한눈에</span></h2>
           <dl class="stats" id="stats"></dl>
         </div>
       </section>
 
       <section class="members" id="members" aria-labelledby="members-title">
         <div class="wrap">
-          <h2 class="section-title" id="members-title">팀원</h2>
+          <h2 class="section-title" id="members-title"><span class="section-code">// 01 TEAM</span><span class="section-name">함께하는 사람들</span></h2>
           <div class="org" id="org"></div>
         </div>
       </section>
 
       <section class="workspace" id="workspace" aria-labelledby="workspace-title">
         <div class="wrap">
-          <h2 class="section-title" id="workspace-title">%WORKSPACE_TITLE%</h2>
+          <h2 class="section-title" id="workspace-title"><span class="section-code">// 02 WORKSPACE</span><span class="section-name">%WORKSPACE_TITLE%</span></h2>
           <ul class="ws-grid" id="ws-grid"></ul>
         </div>
       </section>
 
       <section class="principles" id="principles" aria-labelledby="principles-title">
         <div class="wrap">
-          <h2 class="section-title" id="principles-title">팀이 일하는 방식</h2>
+          <h2 class="section-title" id="principles-title"><span class="section-code">// 03 PRINCIPLES</span><span class="section-name">우리가 일하는 방식</span></h2>
           <ol class="principle-list" id="principle-list"></ol>
         </div>
       </section>

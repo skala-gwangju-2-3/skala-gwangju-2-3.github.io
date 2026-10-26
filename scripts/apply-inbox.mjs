@@ -7,7 +7,7 @@ import os from 'node:os';
 const inbox = process.argv[2] || path.join(os.homedir(), 'Desktop', 'skala-team-inbox');
 const INTERNAL = new Set(['note']); // 화면에 쓰지 않는 운영용 필드
 // 공개 페이지 금지어를 피하기 위한 표현 치환 (원문 의미 유지)
-const REWRITE = [['조기 진단', '조기 판별']];
+const REWRITE = [['조기 진단', '조기 판별'], ['Agentic Hackathon', '에이전트 해커톤'], ['Hackathon', '해커톤']];
 const rewrite = (v) => {
   if (typeof v === 'string') return REWRITE.reduce((acc, [a, b]) => acc.split(a).join(b), v);
   if (Array.isArray(v)) return v.map(rewrite);

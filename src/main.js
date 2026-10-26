@@ -149,12 +149,12 @@ function renderStats() {
       el('dt', { class: 'stat-label', text: label }),
     ]);
   dl.append(
-    numStat('팀원', members.length, '명', 0),
+    numStat('함께하는 팀원', members.length, '명', 0),
     el('div', { class: 'stat stat-roles reveal', style: '--reveal-delay:90ms' }, [
-      el('dd', { class: 'stat-value roles' }, roles.map((r) => el('span', { class: 'role-count' }, [el('b', { text: r }), el('span', { class: 'stat-num', text: String(counts[r]), 'data-target': counts[r] })]))),
-      el('dt', { class: 'stat-label', text: '역할 구성' }),
+      el('dd', { class: 'stat-value roles' }, roles.map((r) => el('span', { class: 'role-count', 'data-role': r }, [el('b', { text: r }), el('span', { class: 'stat-num', text: String(counts[r]), 'data-target': counts[r] })]))),
+      el('dt', { class: 'stat-label', text: '이렇게 나눠 맡아요' }),
     ]),
-    numStat('대표 경력과 수상', highlightsTotal, '건', 2),
+    numStat('지금까지 쌓은 경력과 수상', highlightsTotal, '건', 2),
   );
   if (reduced || !('IntersectionObserver' in window)) return;
   const io = new IntersectionObserver(
@@ -195,7 +195,7 @@ const hopeText = (m) => {
 
 function roleChips(m, { large = false } = {}) {
   const items = [];
-  if (m.teamRole) items.push(el('span', { class: `chip chip-main${large ? ' is-large' : ''}`, text: m.teamRole }));
+  if (m.teamRole) items.push(el('span', { class: `chip chip-main${large ? ' is-large' : ''}`, 'data-role': normRole(m.role), text: m.teamRole }));
   if (m.teamRoleSub) items.push(el('span', { class: 'chip chip-sub', text: m.teamRoleSub }));
   if (!items.length) {
     if (m.role) items.push(el('span', { class: 'chip chip-main', text: m.role }));
@@ -232,7 +232,7 @@ function memberCard(m, { lead = false } = {}) {
       photoBlock(m, 480, 'card-photo'),
       el('div', { class: 'card-body' }, [
         el('h3', { class: 'card-name', text: m.name }),
-        el('span', { class: 'pending-label', text: '프로필 준비 중' }),
+        el('span', { class: 'pending-label', text: '프로필 곧 올라와요' }),
         el('div', { class: 'skeleton', 'aria-hidden': 'true' }, [el('span'), el('span'), el('span')]),
       ]),
     ]);
@@ -252,8 +252,7 @@ function memberCard(m, { lead = false } = {}) {
     hopeText(m) ? el('p', { class: 'hope', text: hopeText(m) }) : null,
     el('span', { class: 'more', 'aria-hidden': 'true', text: '자세히 보기' }),
   ]);
-  card.append(photoBlock(m, lead ? 960 : 480, 'card-photo'), body);
-  attachTilt(card);
+  card.append(el('span', { class: 'verified', text: '✓ VERIFIED', 'aria-hidden': 'true' }), photoBlock(m, lead ? 960 : 480, 'card-photo'), body);
   return card;
 }
 
@@ -304,6 +303,42 @@ function attachTilt(card) {
     cancelAnimationFrame(raf);
     card.classList.remove('is-tilting');
     card.style.transform = '';
+  });
+}
+
+function setupTyping() {
+  const nodes = document.querySelectorAll('.org .keystat-value');
+  if (reduced || !('IntersectionObserver' in window)) return;
+  const type = (node) => {
+    const full = node.dataset.full;
+    const chars = [...full];
+    const step = Math.max(12, Math.floor(480 / chars.length));
+    let i = 0;
+    node.textContent = '';
+    node.classList.add('typing');
+    const timer = setInterval(() => {
+      i += 1;
+      node.textContent = chars.slice(0, i).join('');
+      if (i >= chars.length) {
+        clearInterval(timer);
+        node.classList.remove('typing');
+      }
+    }, step);
+  };
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        io.unobserve(entry.target);
+        type(entry.target);
+      }
+    },
+    { threshold: 0.6 },
+  );
+  nodes.forEach((n) => {
+    n.dataset.full = n.textContent;
+    n.setAttribute('aria-label', n.textContent);
+    io.observe(n);
   });
 }
 
@@ -446,7 +481,7 @@ function renderWorkspace() {
         el('span', { class: 'ws-label', text: w.label }),
         w.desc ? el('span', { class: 'ws-desc', text: w.desc }) : null,
       ]),
-      el('span', { class: `ws-state${active ? ' is-open' : ''}`, text: active ? (w.status || '열기') : (w.status || '준비 중') }),
+      el('span', { class: `ws-state${active ? ' is-open' : ''}`, text: active ? (w.status || '바로 가기') : (w.status || '곧 열려요') }),
     ];
     const node = active
       ? el('a', { class: 'ws-card', href: w.url, target: '_blank', rel: 'noopener noreferrer', 'aria-label': `${w.label}, ${w.desc ?? ''} (새 탭)` }, inner)
@@ -534,7 +569,7 @@ function setupTheme() {
   const current = () => root.getAttribute('data-theme') || (system.matches ? 'light' : 'dark');
   const paint = () => {
     const theme = current();
-    label.textContent = theme === 'dark' ? '화면 밝게' : '화면 어둡게';
+    label.textContent = theme === 'dark' ? '밝게 보기' : '어둡게 보기';
     button.setAttribute('aria-pressed', root.hasAttribute('data-theme') ? 'true' : 'false');
   };
   button.addEventListener('click', () => {
@@ -564,6 +599,7 @@ renderAvatarStack();
 renderStats();
 renderOrg();
 setupOrgLines();
+setupTyping();
 renderWorkspace();
 renderPrinciples();
 setupRevealFallback();
