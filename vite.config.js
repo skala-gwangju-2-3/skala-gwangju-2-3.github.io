@@ -34,6 +34,8 @@ function injectConfig() {
         .replaceAll('%MISSION_LEAD%', esc(c.mission?.lead || ''))
         .replaceAll('%DELIVERABLES_TITLE%', esc(c.deliverablesTitle || '산출물'))
         .replaceAll('%DELIVERABLES_NOTE%', esc(c.deliverablesNote || ''))
+        .replaceAll('%TARGET_LABEL%', esc(c.target?.label || ''))
+        .replaceAll('%TARGET_TEXT%', esc(c.target?.text || ''))
         .replaceAll('%WORKSPACE_TITLE%', esc(c.workspaceTitle || '팀 워크스페이스'))
         .replaceAll('%TITLE_W%', titleWidth(c.teamName));
     },

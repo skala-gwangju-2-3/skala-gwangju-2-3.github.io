@@ -585,6 +585,7 @@ function renderConsole() {
           return { t: dn === ds.length ? 'ok' : 'wait', s: `${dn === ds.length ? '✓' : '○'} ${pad('docs', 11)}${dn}/${ds.length} ${dn === ds.length ? 'done' : 'queued'}` };
         })()
       : null,
+    config.target?.console ? { t: 'run', s: `◎ ${pad('target', 11)}${config.target.console}` } : null,
     ...milestones.map((m) => {
       const d = parseDay(m.date);
       return { t: 'wait', s: `○ ${pad((m.phase ?? m.title).toLowerCase().replace(/\s+/g, '-'), 11)}${m.date.split(/\s/)[0]}  ${d ? dday(d) : ''}` };

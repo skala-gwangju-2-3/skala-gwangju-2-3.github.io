@@ -887,6 +887,29 @@ main > section {
   color: var(--muted);
 }
 
+/* 수상 목표 칩 */
+.target-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 6px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--orange) 55%, transparent);
+  background: rgba(242, 153, 74, 0.08);
+}
+.target-chip b {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-solid);
+  background: var(--orange);
+}
+
 /* 평가 항목 태그 */
 .mission-evals {
   display: flex;

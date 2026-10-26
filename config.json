@@ -217,5 +217,10 @@
       "status": "todo"
     }
   ],
-  "deliverablesNote": "SKALA 산출물 템플릿 기준, 상태는 팀이 직접 갱신"
+  "deliverablesNote": "SKALA 산출물 템플릿 기준, 상태는 팀이 직접 갱신",
+  "target": {
+    "label": "TARGET",
+    "text": "광주 21팀 중 시상 4팀",
+    "console": "TOP 4 / 21 teams"
+  }
 }
