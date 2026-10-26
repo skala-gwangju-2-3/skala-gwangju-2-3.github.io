@@ -493,6 +493,25 @@ function renderWorkspace() {
   document.querySelector('#workspace .section-title')?.classList.add('reveal');
 }
 
+/* ---------- 일정 상태 자동 계산 ---------- */
+function dayRange(text) {
+  const all = [...String(text).matchAll(/(\d{1,2})\.(\d{1,2})/g)];
+  const y = new Date().getFullYear();
+  const toDate = (m) => new Date(y, Number(m[1]) - 1, Number(m[2]));
+  if (!all.length) return null;
+  return { start: toDate(all[0]), end: toDate(all[all.length - 1]) };
+}
+function statusOf(t, today = new Date()) {
+  const d = new Date(today);
+  d.setHours(0, 0, 0, 0);
+  const r = dayRange(t.date);
+  if (!r) return 'next';
+  if (r.end < d) return 'done';
+  if (r.start <= d && d <= r.end) return 'now';
+  return 'next';
+}
+const timelineWithStatus = () => (config.timeline ?? []).map((t) => ({ ...t, status: statusOf(t), milestone: t.type === 'milestone' }));
+
 /* ---------- 히어로 상태 콘솔 ---------- */
 function parseDay(md) {
   // "11.12" 또는 "12.09 – 12.11" 의 첫 날짜를 올해 날짜로
@@ -511,9 +530,9 @@ function renderConsole() {
   const log = document.getElementById('console-log');
   const gauge = document.getElementById('console-gauge');
   if (!log) return;
-  const tl = config.timeline ?? [];
-  const now = tl.find((t) => t.status === 'now');
-  const milestones = tl.filter((t) => t.status === 'milestone');
+  const tl = timelineWithStatus();
+  const now = tl.find((t) => t.status === 'now' && !t.milestone) ?? tl.find((t) => t.status === 'now');
+  const milestones = tl.filter((t) => t.milestone && t.status !== 'done');
   const ready = members.filter(isReady).length;
   const counts = {};
   members.forEach((m) => {
@@ -528,7 +547,7 @@ function renderConsole() {
     { t: 'ok', s: `✓ ${pad('members', 11)}${ready}/${members.length} verified` },
     { t: 'ok', s: `✓ ${pad('roles', 11)}${roles}` },
     { t: 'ok', s: `✓ ${pad('workspace', 11)}${ws.length ? ws.join(', ') + ' ready' : 'setting up'}` },
-    now ? { t: 'run', s: `● ${pad('sprint', 11)}${now.phase ?? ''} in progress` } : null,
+    now ? { t: 'run', s: `● ${pad('phase', 11)}${now.phase ?? ''} in progress` } : null,
     ...milestones.map((m) => {
       const d = parseDay(m.date);
       return { t: 'wait', s: `○ ${pad((m.phase ?? m.title).toLowerCase().replace(/\s+/g, '-'), 11)}${m.date.split(/\s/)[0]}  ${d ? dday(d) : ''}` };
@@ -546,7 +565,7 @@ function renderConsole() {
     gauge.innerHTML = `<svg viewBox="0 0 88 88" aria-hidden="true"><circle cx="44" cy="44" r="${r}" class="g-track"/><circle cx="44" cy="44" r="${r}" class="g-fill" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${(c * (1 - pct)).toFixed(1)}"/></svg><div class="g-text"><b>${dday(fd)}</b><span>to final</span></div>`;
   }
   const pill = document.getElementById('status-pill-text');
-  if (pill && now) pill.textContent = `SPRINT ${String(tl.indexOf(now)).padStart(2, '0')}  ${now.phase}  진행 중`;
+  if (pill && now) pill.textContent = `PHASE ${String(tl.filter((t) => !t.milestone).indexOf(now)).padStart(2, '0')}  ${now.phase}  진행 중`;
   const render = (n) => {
     log.replaceChildren(...lines.slice(0, n).map((l) => el('span', { class: `ln ln-${l.t}`, text: l.s + '\n' })));
   };
@@ -589,7 +608,7 @@ function renderMission() {
 /* ---------- 기록 타임라인 ---------- */
 function renderTimeline() {
   const list = document.getElementById('tl');
-  const items = config.timeline ?? [];
+  const items = timelineWithStatus();
   if (!list) return;
   if (!items.length) {
     document.getElementById('timeline')?.remove();
@@ -597,7 +616,7 @@ function renderTimeline() {
   }
   items.forEach((t, i) => {
     list.append(
-      el('li', { class: `tl-item reveal is-${t.status || 'next'}`, style: `--reveal-delay:${i * 60}ms` }, [
+      el('li', { class: `tl-item reveal is-${t.status}${t.milestone ? ' is-milestone' : ''}`, style: `--reveal-delay:${i * 50}ms` }, [
         el('div', { class: 'tl-when' }, [
           el('span', { class: 'tl-date', text: t.date }),
           t.phase ? el('span', { class: 'tl-phase', text: t.phase }) : null,

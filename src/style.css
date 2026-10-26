@@ -1742,6 +1742,9 @@ a.ws-card:focus-visible {
 .tl-item.is-next .tl-title {
   color: color-mix(in srgb, var(--text) 82%, var(--muted));
 }
+.tl-item.is-milestone.is-done::before {
+  background: var(--orange);
+}
 .tl-item.is-milestone::before {
   width: 14px;
   height: 14px;
