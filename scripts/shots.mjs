@@ -28,13 +28,10 @@ async function shoot(name, viewport, opts = {}) {
     window.scrollTo(0, 0);
   });
   await page.waitForTimeout(800);
-  // 스크롤 연동 애니메이션이 뷰포트 기준이라, 문서 높이만큼 뷰포트를 키워 전체를 캡처
-  const fullH = await page.evaluate(() => document.documentElement.scrollHeight);
-  await page.setViewportSize({ width: viewport.width, height: Math.min(fullH, 16000) });
-  await page.waitForTimeout(600);
-  await page.screenshot({ path: `${outDir}/${name}-full.png`, fullPage: true });
-  await page.setViewportSize(viewport);
+  // 스크롤 연동 등장 애니메이션은 뷰포트 기준이라, 전체 캡처 순간에만 등장 상태를 고정
+  await page.addStyleTag({ content: '.reveal{animation:none!important;opacity:1!important;transform:none!important}' });
   await page.waitForTimeout(300);
+  await page.screenshot({ path: `${outDir}/${name}-full.png`, fullPage: true });
   report[name] = { viewportWidth: viewport.width, scrollWidth: scrollW, horizontalScroll: scrollW > viewport.width, errors };
   return { ctx, page };
 }

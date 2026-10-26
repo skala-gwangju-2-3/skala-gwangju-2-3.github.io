@@ -107,7 +107,7 @@ function renderAvatarStack() {
       avatar.append(el('img', { src: photoUrl(m, 480), alt: m.name, width: 48, height: 48, loading: 'eager' }));
     } else {
       avatar.append(el('span', { text: initialOf(m), 'aria-hidden': 'true' }));
-      avatar.append(el('span', { class: 'sr-only', text: m.name, style: 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)' }));
+      avatar.append(el('span', { class: 'sr-only', text: m.name }));
     }
     stack.append(avatar);
   }
@@ -184,7 +184,7 @@ function readyCard(m, i) {
     el('div', { class: 'card-body' }, [
       el('div', { class: 'card-head' }, [
         el('h3', { class: 'card-name' }, [
-          el('button', { class: 'card-open', type: 'button', text: m.name, 'aria-label': `${m.name} 상세 보기`, onclick: () => openModal(m, card) }),
+          el('button', { class: 'card-open', type: 'button', onclick: () => openModal(m, card) }, [m.name, el('span', { class: 'sr-only', text: ' 상세 보기' })]),
         ]),
       ]),
       badges(m),
