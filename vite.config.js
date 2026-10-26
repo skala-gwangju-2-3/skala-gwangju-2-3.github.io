@@ -30,6 +30,8 @@ function injectConfig() {
         .replaceAll('%FOOTER%', esc(c.footer))
         .replaceAll('%TIMELINE_TITLE%', esc(c.timelineTitle || '우리가 지나온 길'))
         .replaceAll('%TIMELINE_NOTE%', esc(c.timelineNote || ''))
+        .replaceAll('%MISSION_TITLE%', esc(c.mission?.title || '우리의 목표'))
+        .replaceAll('%MISSION_LEAD%', esc(c.mission?.lead || ''))
         .replaceAll('%WORKSPACE_TITLE%', esc(c.workspaceTitle || '팀 워크스페이스'))
         .replaceAll('%TITLE_W%', titleWidth(c.teamName));
     },

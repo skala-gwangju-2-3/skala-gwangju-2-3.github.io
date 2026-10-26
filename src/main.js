@@ -493,6 +493,28 @@ function renderWorkspace() {
   document.querySelector('#workspace .section-title')?.classList.add('reveal');
 }
 
+/* ---------- 목표와 포부 ---------- */
+function renderMission() {
+  const grid = document.getElementById('mission-grid');
+  const goals = config.mission?.goals ?? [];
+  if (!grid) return;
+  if (!goals.length && !config.mission?.lead) {
+    document.getElementById('mission')?.remove();
+    return;
+  }
+  goals.forEach((g, i) => {
+    grid.append(
+      el('li', { class: 'mission-card reveal', style: `--reveal-delay:${i * 80}ms` }, [
+        el('span', { class: 'mission-code', text: g.code || `GOAL ${String(i + 1).padStart(2, '0')}` }),
+        el('h3', { class: 'mission-title', text: g.title }),
+        g.body ? el('p', { class: 'mission-body', text: g.body }) : null,
+      ]),
+    );
+  });
+  document.querySelector('#mission .section-title')?.classList.add('reveal');
+  document.querySelector('.mission-lead')?.classList.add('reveal');
+}
+
 /* ---------- 기록 타임라인 ---------- */
 function renderTimeline() {
   const list = document.getElementById('tl');
@@ -624,6 +646,7 @@ function setupTheme() {
 renderTeamName();
 renderTagline();
 renderAvatarStack();
+renderMission();
 renderStats();
 renderOrg();
 setupOrgLines();
