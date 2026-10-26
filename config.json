@@ -230,5 +230,32 @@
     "console": "TOP 4 / 21 teams"
   },
   "workspacePrivate": true,
-  "workspaceNote": "팀 내부 전용 공간으로, 외부에는 공개하지 않습니다."
+  "workspaceNote": "팀 내부 전용 공간으로, 외부에는 공개하지 않습니다.",
+  "flow": [
+    {
+      "code": "01",
+      "name": "DEFINE",
+      "label": "문제 정의"
+    },
+    {
+      "code": "02",
+      "name": "COLLECT",
+      "label": "근거 수집"
+    },
+    {
+      "code": "03",
+      "name": "ANALYZE",
+      "label": "AI 분석"
+    },
+    {
+      "code": "04",
+      "name": "VERIFY",
+      "label": "검증"
+    },
+    {
+      "code": "05",
+      "name": "REVIEW",
+      "label": "사람 확인"
+    }
+  ]
 }

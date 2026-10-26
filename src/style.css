@@ -887,6 +887,95 @@ main > section {
   color: var(--muted);
 }
 
+/* 일하는 흐름 띠: 노드 다섯 개를 잇는 선 위로 빛 점이 흐름 */
+.flow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n, 5), 1fr);
+  gap: 8px;
+  margin-bottom: clamp(24px, 3vw, 36px);
+  padding: 22px 8px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.flow::before {
+  content: '';
+  position: absolute;
+  top: 43px;
+  left: calc(100% / var(--n, 5) / 2);
+  right: calc(100% / var(--n, 5) / 2);
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-bright), rgba(var(--glow-rgb), 0.25));
+}
+.flow::after {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: calc(100% / var(--n, 5) / 2);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  box-shadow: 0 0 12px rgba(var(--glow-rgb), 0.9);
+  animation: flow-run 3.2s linear infinite;
+}
+@keyframes flow-run {
+  from { transform: translateX(0); opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  to { transform: translateX(calc((100cqw - 100cqw / var(--n, 5)) - 8px)); opacity: 0; }
+}
+.flow {
+  container-type: inline-size;
+}
+.flow-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.flow-node {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--ink-solid);
+  border: 1.5px solid rgba(var(--glow-rgb), 0.55);
+  box-shadow: 0 0 0 4px var(--ink-2);
+}
+.flow-step:last-child .flow-node {
+  color: var(--pm-fg);
+  border-color: color-mix(in srgb, var(--orange) 65%, transparent);
+}
+.flow-name {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.flow-label {
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+@media (max-width: 599px) {
+  .flow-name { display: none; }
+  .flow-label { font-size: 0.75rem; }
+  .flow-node { width: 34px; height: 34px; font-size: 0.6875rem; }
+  .flow::before { top: 38px; }
+  .flow::after { top: 35px; }
+}
+
 /* 수상 목표 칩 */
 .target-chip {
   display: inline-flex;
@@ -2329,6 +2418,9 @@ a.ws-card:focus-visible {
     animation: none;
   }
   .pulse::after {
+    display: none;
+  }
+  .flow::after {
     display: none;
   }
   .org-stem,

@@ -637,6 +637,27 @@ function renderConsole() {
   setTimeout(step, 700);
 }
 
+/* ---------- 일하는 흐름 띠 ---------- */
+function renderFlow() {
+  const list = document.getElementById('flow');
+  const steps = config.flow ?? [];
+  if (!list) return;
+  if (!steps.length) {
+    list.remove();
+    return;
+  }
+  steps.forEach((st, i) => {
+    list.append(
+      el('li', { class: 'flow-step', style: `--i:${i}` }, [
+        el('span', { class: 'flow-node', 'aria-hidden': 'true' }, [el('span', { text: st.code })]),
+        el('span', { class: 'flow-name', text: st.name }),
+        el('span', { class: 'flow-label', text: st.label }),
+      ]),
+    );
+  });
+  list.style.setProperty('--n', steps.length);
+}
+
 /* ---------- 목표와 포부 ---------- */
 function renderMission() {
   const grid = document.getElementById('mission-grid');
@@ -835,6 +856,7 @@ renderTeamName();
 renderTagline();
 renderAvatarStack();
 renderConsole();
+renderFlow();
 renderMission();
 renderStats();
 renderOrg();
