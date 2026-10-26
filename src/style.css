@@ -1502,13 +1502,24 @@ main > section:not(.hero) > .wrap {
 
 /* PM 와이드 카드 */
 .lead-badge {
-  font-family: var(--mono);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   align-self: flex-start;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--accent);
+  padding: 7px 16px 7px 12px;
+  border-radius: 10px;
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--pm-fg);
+  background: var(--pm-bg);
+  border: 1.5px solid color-mix(in srgb, var(--orange) 55%, transparent);
+  box-shadow: 0 0 18px -6px rgba(242, 153, 74, 0.55);
+}
+.lead-badge::before {
+  content: '★';
+  font-size: 0.9em;
+  color: var(--orange);
 }
 .card-lead {
   width: 100%;
