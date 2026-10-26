@@ -1500,6 +1500,24 @@ main > section:not(.hero) > .wrap {
   overflow-wrap: anywhere;
 }
 
+/* 팀원 카드 4장: 카드 하나를 한 섹션처럼 가운데 정렬 */
+.org-cards .card-body {
+  align-items: center;
+  text-align: center;
+}
+.org-cards .chips {
+  justify-content: center;
+}
+.org-cards .keystat {
+  width: 100%;
+}
+.org-cards .edu li {
+  text-wrap: balance;
+}
+.org-cards .more {
+  align-self: center;
+}
+
 /* PM 와이드 카드 */
 .lead-badge {
   display: inline-flex;
