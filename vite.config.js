@@ -21,6 +21,7 @@ function injectConfig() {
         .replaceAll('%SUBTITLE%', esc(c.subtitle))
         .replaceAll('%TAGLINE%', esc(c.tagline))
         .replaceAll('%FOOTER%', esc(c.footer))
+        .replaceAll('%TIMELINE_TITLE%', esc(c.timelineTitle || '우리가 지나온 길'))
         .replaceAll('%WORKSPACE_TITLE%', esc(c.workspaceTitle || '팀 워크스페이스'))
         .replaceAll('%TITLE_W%', titleWidth(c.teamName));
     },

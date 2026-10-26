@@ -491,6 +491,26 @@ function renderWorkspace() {
   document.querySelector('#workspace .section-title')?.classList.add('reveal');
 }
 
+/* ---------- 기록 타임라인 ---------- */
+function renderTimeline() {
+  const list = document.getElementById('tl');
+  const items = config.timeline ?? [];
+  if (!list) return;
+  if (!items.length) {
+    document.getElementById('timeline')?.remove();
+    return;
+  }
+  items.forEach((t, i) => {
+    list.append(
+      el('li', { class: 'tl-item reveal', style: `--reveal-delay:${i * 70}ms` }, [
+        el('span', { class: 'tl-date', text: t.date }),
+        el('div', { class: 'tl-text' }, [el('h3', { class: 'tl-title', text: t.title }), t.body ? el('p', { class: 'tl-body', text: t.body }) : null]),
+      ]),
+    );
+  });
+  document.querySelector('#timeline .section-title')?.classList.add('reveal');
+}
+
 /* ---------- 일하는 방식 ---------- */
 function renderPrinciples() {
   const list = document.getElementById('principle-list');
@@ -601,6 +621,7 @@ renderOrg();
 setupOrgLines();
 setupTyping();
 renderWorkspace();
+renderTimeline();
 renderPrinciples();
 setupRevealFallback();
 setupGlow();

@@ -1268,6 +1268,65 @@ a.ws-card:focus-visible {
   color: var(--muted);
 }
 
+/* ---------- 기록 타임라인 ---------- */
+.tl {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding-left: 4px;
+}
+.tl::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent-bright), rgba(var(--glow-rgb), 0.15));
+}
+.tl-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px 24px;
+  padding: 14px 0 14px 32px;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink-solid);
+  border: 2px solid var(--accent-bright);
+  box-shadow: 0 0 10px rgba(var(--glow-rgb), 0.45);
+}
+.tl-date {
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding-top: 2px;
+}
+.tl-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+}
+.tl-body {
+  margin-top: 2px;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+@media (min-width: 768px) {
+  .tl-item {
+    grid-template-columns: 72px 1fr;
+  }
+}
+
 /* ---------- 일하는 방식 ---------- */
 .principle-list {
   border-top: 1px solid var(--line);
@@ -1289,6 +1348,7 @@ a.ws-card:focus-visible {
   font-variant-numeric: tabular-nums;
 }
 .principle-title {
+  font-weight: 800;
   font-size: clamp(1.25rem, 2vw, 1.625rem);
   font-weight: 700;
   letter-spacing: -0.02em;
