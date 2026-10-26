@@ -40,7 +40,15 @@
         </div>
         <div class="hero-inner wrap">
           <p class="eyebrow"><span class="prompt">&gt; team.init()</span>&nbsp; %SUBTITLE% %TEAM_LABEL%<span class="cursor" aria-hidden="true"></span></p>
-          <h1 class="team-name" id="team-name">%TEAM_NAME%</h1>
+          <div class="hero-title">
+            <h1 class="team-name" id="team-name">%TEAM_NAME%</h1>
+            <aside class="gwin-def" aria-label="팀 이름 뜻">
+              <p class="gwin-head"><b class="gwin-word">%MEAN_WORD%</b><span class="gwin-reading">%MEAN_READING%</span><span class="gwin-tag">%MEAN_TAG%</span></p>
+              <p class="gwin-example">%MEAN_EXAMPLE%</p>
+              <p class="gwin-definition">%MEAN_DEFINITION%</p>
+              <p class="gwin-story">%MEAN_STORY%</p>
+            </aside>
+          </div>
           <p class="tagline" id="tagline">%TAGLINE%</p>
           <div class="hero-foot">
             <div class="avatar-stack" id="avatar-stack" role="list" aria-label="팀원"></div>
@@ -75,8 +83,9 @@
 
       <section class="timeline" id="timeline" aria-labelledby="timeline-title">
         <div class="wrap">
-          <h2 class="section-title" id="timeline-title"><span class="section-code">// 03 LOG</span><span class="section-name">%TIMELINE_TITLE%</span></h2>
+          <h2 class="section-title" id="timeline-title"><span class="section-code">// 03 ROADMAP</span><span class="section-name">%TIMELINE_TITLE%</span></h2>
           <ol class="tl" id="tl"></ol>
+          <p class="tl-note">%TIMELINE_NOTE%</p>
         </div>
       </section>
 

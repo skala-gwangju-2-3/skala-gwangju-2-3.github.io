@@ -504,9 +504,15 @@ function renderTimeline() {
   }
   items.forEach((t, i) => {
     list.append(
-      el('li', { class: 'tl-item reveal', style: `--reveal-delay:${i * 70}ms` }, [
-        el('span', { class: 'tl-date', text: t.date }),
-        el('div', { class: 'tl-text' }, [el('h3', { class: 'tl-title', text: t.title }), t.body ? el('p', { class: 'tl-body', text: t.body }) : null]),
+      el('li', { class: `tl-item reveal is-${t.status || 'next'}`, style: `--reveal-delay:${i * 60}ms` }, [
+        el('div', { class: 'tl-when' }, [
+          el('span', { class: 'tl-date', text: t.date }),
+          t.phase ? el('span', { class: 'tl-phase', text: t.phase }) : null,
+        ]),
+        el('div', { class: 'tl-text' }, [
+          el('h3', { class: 'tl-title' }, [t.title, t.status === 'now' ? el('span', { class: 'tl-now', text: '지금 여기' }) : null, t.status === 'done' ? el('span', { class: 'tl-done', text: '완료' }) : null]),
+          t.body ? el('p', { class: 'tl-body', text: t.body }) : null,
+        ]),
       ]),
     );
   });

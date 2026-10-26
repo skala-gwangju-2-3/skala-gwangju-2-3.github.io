@@ -19,10 +19,17 @@ function injectConfig() {
         .replaceAll('%TEAM_NAME%', esc(c.teamName))
         .replaceAll('%TEAM_NAME_EN%', esc(c.teamNameEn))
         .replaceAll('%TEAM_LABEL%', esc(c.teamLabel || ''))
+        .replaceAll('%MEAN_WORD%', esc(c.teamNameMeaning?.word))
+        .replaceAll('%MEAN_READING%', esc(c.teamNameMeaning?.reading))
+        .replaceAll('%MEAN_TAG%', esc(c.teamNameMeaning?.tag))
+        .replaceAll('%MEAN_EXAMPLE%', esc(c.teamNameMeaning?.example))
+        .replaceAll('%MEAN_DEFINITION%', esc(c.teamNameMeaning?.definition))
+        .replaceAll('%MEAN_STORY%', esc(c.teamNameMeaning?.story))
         .replaceAll('%SUBTITLE%', esc(c.subtitle))
         .replaceAll('%TAGLINE%', esc(c.tagline))
         .replaceAll('%FOOTER%', esc(c.footer))
         .replaceAll('%TIMELINE_TITLE%', esc(c.timelineTitle || '우리가 지나온 길'))
+        .replaceAll('%TIMELINE_NOTE%', esc(c.timelineNote || ''))
         .replaceAll('%WORKSPACE_TITLE%', esc(c.workspaceTitle || '팀 워크스페이스'))
         .replaceAll('%TITLE_W%', titleWidth(c.teamName));
     },
