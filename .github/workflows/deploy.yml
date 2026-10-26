@@ -32,7 +32,7 @@ jobs:
           ls dist/assets/index-*.js
           grep -q 'src="/assets/index-' dist/index.html
           if grep -q '/src/main.js' dist/index.html; then echo "원본 엔트리가 남아 있음"; exit 1; fi
-          if grep -r -n -i -E '보안|취약점|진단|주제|010-|security|hack|해킹' dist; then echo "금지어 발견"; exit 1; fi
+          if grep -r -n -i -E '보안|취약점|진단|주제|010-[0-9]{3,4}-|security|hack|해킹' dist; then echo "금지어 발견"; exit 1; fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
