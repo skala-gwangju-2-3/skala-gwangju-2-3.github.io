@@ -100,7 +100,7 @@ img {
 }
 
 /* ---------- 공통 섹션 ---------- */
-section {
+main > section {
   padding-block: clamp(72px, 10vw, 140px);
 }
 
@@ -722,6 +722,9 @@ section {
   aspect-ratio: 3 / 4;
   background: var(--ink);
   overflow: hidden;
+  align-self: start;
+  position: sticky;
+  top: 0;
 }
 .modal-photo img {
   width: 100%;
@@ -801,10 +804,6 @@ section {
 @media (min-width: 768px) {
   .modal-inner {
     grid-template-columns: 300px 1fr;
-  }
-  .modal-photo {
-    aspect-ratio: auto;
-    min-height: 100%;
   }
   .modal-content {
     padding: 36px 36px 40px;
