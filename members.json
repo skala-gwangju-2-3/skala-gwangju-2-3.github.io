@@ -31,7 +31,9 @@
     "tier": 1,
     "group": "PM",
     "keyStat": "6초 → 1.8초",
-    "keyStatLabel": "LangGraph 실시간 음성 에이전트 응답 지연 개선"
+    "keyStatLabel": "LangGraph 실시간 음성 에이전트 응답 지연 개선",
+    "pledge": "7주 뒤, 이 프로젝트로 영화 한 편 찍을 수 있게 만들겠습니다.",
+    "theme": "orange"
   },
   {
     "id": "park-yeonju",
@@ -76,7 +78,9 @@
     "labs": [
       "한양대 계산신경영상분석(CNA) 연구실",
       "서울여대 시각컴퓨팅·의료영상(VCMI) 연구실"
-    ]
+    ],
+    "pledge": "근거 없는 문장은 한 줄도 남기지 않겠습니다.",
+    "theme": "violet"
   },
   {
     "id": "oh-younghyun",
@@ -109,7 +113,9 @@
     "tier": 2,
     "group": "AI · 데이터",
     "keyStat": "쿼리 768개 → 6개",
-    "keyStatLabel": "실사용자 300명 시스템 1인 개발·운영"
+    "keyStatLabel": "실사용자 300명 시스템 1인 개발·운영",
+    "pledge": "느린 곳은 숫자로 찾고, 숫자로 고쳐 보이겠습니다.",
+    "theme": "teal"
   },
   {
     "id": "lee-hyobin",
@@ -140,7 +146,9 @@
     "tier": 3,
     "group": "서비스 개발",
     "keyStat": "실시간 탐지 백엔드",
-    "keyStatLabel": "FastAPI · WebSocket · 알림"
+    "keyStatLabel": "FastAPI · WebSocket · 알림",
+    "pledge": "요청 하나도 흘리지 않는 백엔드로 팀을 받치겠습니다.",
+    "theme": "blue"
   },
   {
     "id": "jang",
@@ -175,6 +183,8 @@
     "order": 5,
     "keyStat": "SKT 공모전 최우수상",
     "keyStatLabel": "LLM 에이전트 설계·구현",
-    "badge": "FE 리드"
+    "badge": "FE 리드",
+    "pledge": "사람이 마지막에 판단하는 화면까지 끝까지 다듬겠습니다.",
+    "theme": "green"
   }
 ]

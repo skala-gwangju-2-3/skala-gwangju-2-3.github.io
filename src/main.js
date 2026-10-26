@@ -405,8 +405,18 @@ function buildModal(m) {
   const sec = (title, node) => (node ? el('section', {}, [el('h3', { text: title }), node]) : null);
   const list = (arr, cls) => (arr?.length ? el('ul', { class: cls }, arr.map((x) => el('li', { text: x }))) : null);
   queueMicrotask(() => modalInner.querySelectorAll('.keystat-value').forEach(formatKeyStat));
-  modalInner.replaceChildren(
+  const photoCol = el('div', { class: 'modal-side' }, [
     photoBlock(m, 960, 'modal-photo'),
+    m.pledge
+      ? el('figure', { class: `pledge theme-${m.theme || 'cyan'}` }, [
+          el('span', { class: 'pledge-label', text: 'PLEDGE' }),
+          el('blockquote', { class: 'pledge-text', text: m.pledge }),
+          el('figcaption', { class: 'pledge-by', text: `${m.name}의 출사표` }),
+        ])
+      : null,
+  ]);
+  modalInner.replaceChildren(
+    photoCol,
     el('div', { class: 'modal-content' }, [
       el('div', { class: 'modal-top' }, [
         el('div', {}, [

@@ -2198,6 +2198,60 @@ a.ws-card:focus-visible {
   }
 }
 
+/* 상세 창 왼쪽: 사진 + 출사표 */
+.modal-side {
+  display: flex;
+  flex-direction: column;
+  background: var(--ink);
+}
+.pledge {
+  --t: var(--accent-bright);
+  --t-bg: rgba(var(--glow-rgb), 0.1);
+  margin: 0;
+  padding: 22px 22px 24px;
+  flex: 1;
+  background: var(--t-bg);
+  border-top: 3px solid var(--t);
+}
+.pledge.theme-orange { --t: #f2994a; --t-bg: rgba(242, 153, 74, 0.12); }
+.pledge.theme-violet { --t: #a78bfa; --t-bg: rgba(167, 139, 250, 0.12); }
+.pledge.theme-teal { --t: #2dd4bf; --t-bg: rgba(45, 212, 191, 0.11); }
+.pledge.theme-blue { --t: #60a5fa; --t-bg: rgba(96, 165, 250, 0.12); }
+.pledge.theme-green { --t: #4ade80; --t-bg: rgba(74, 222, 128, 0.11); }
+.pledge-label {
+  display: inline-block;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--t);
+  filter: brightness(0.85);
+}
+.pledge-text {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  word-break: keep-all;
+  text-wrap: balance;
+}
+.pledge-text::before {
+  content: '“';
+  display: block;
+  font-size: 2rem;
+  line-height: 0.6;
+  margin-bottom: 6px;
+  color: var(--t);
+}
+.pledge-by {
+  margin-top: 12px;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
 /* View Transitions */
 ::view-transition-old(root),
 ::view-transition-new(root) {
